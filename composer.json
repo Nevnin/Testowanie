@@ -1,0 +1,12 @@
+{
+	"require" : {
+		"smarty/smarty" : "3.*",
+		"raveren/kint" : "0.9",
+		"twbs/bootstrap" : "*"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"" : "src/"
+		}
+	}
+}

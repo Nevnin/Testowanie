@@ -1,0 +1,159 @@
+<?php
+namespace Models;
+use \PDO;
+class Koordynator extends Model {
+	//model zwraca tablicÄ™ wszystkich kategorii
+	public function getAll(){
+		$data = array();
+		if(!$this->pdo)
+			$data['msg'] = 'Po³¹czenie z baz¹ nie powido³o siê!';
+			else
+				try
+				{
+					$koordynator = array();
+					
+					$stmt = $this->pdo->query('SELECT  *  FROM `koordynator` WHERE aktywny=1 ' );
+					$koordynator = $stmt->fetchAll();
+					
+					$stmt->closeCursor();
+					if($koordynator && !empty($koordynator))
+						$data['koordynator'] = $koordynator;
+						else
+							$data['koordynator'] = array();
+							$data['msg'] = 'OK';
+			}
+			catch(\PDOException $e)
+			{
+				$data['msg'] = 'B³¹d odczytu danych z bazy!';
+			}
+			return $data;
+	}
+	public function getAllAll(){
+		$data = array();
+		if(!$this->pdo)
+			$data['msg'] = 'Po³¹czenie z baz¹ nie powido³o siê!';
+			else
+				try
+				{
+					$koordynator = array();
+					
+					$stmt = $this->pdo->query('SELECT  *  FROM `koordynator`' );
+					$koordynator = $stmt->fetchAll();
+					
+					$stmt->closeCursor();
+					if($koordynator && !empty($koordynator))
+						$data['koordynator'] = $koordynator;
+						else
+							$data['koordynator'] = array();
+							$data['msg'] = 'OK';
+			}
+			catch(\PDOException $e)
+			{
+				$data['msg'] = 'B³¹d odczytu danych z bazy!';
+			}
+			return $data;
+	}
+	public function getOne($id){
+		$data = array();
+		if($id === NULL)
+			$data['error'] = 'NieokreÅ›lone id!';
+			else if(!$this->pdo)
+				$data['error'] = 'PoÅ‚Ä…czenie z bazÄ… nie powidoÅ‚o siÄ™!';
+				else
+					try
+					{
+						$stmt = $this->pdo->prepare('SELECT * FROM `koordynator` WHERE `id`=:id');
+						$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+						$result = $stmt->execute();
+						$koordynator = $stmt->fetchAll();
+						$stmt->closeCursor();
+						//czy istnieje kategoria o padanym id
+						if($result && $koordynator && !empty($koordynator)){
+							$data['koordynator'] = $koordynator[0];
+						}
+						else
+						{
+							//$data['category'] = array();
+							$data['error'] = "Brak koordynatora o id=$id!";
+						}
+						
+				}
+				catch(\PDOException $e)
+				{
+					$data['error'] = 'BÅ‚Ä…d odczytu danych z bazy!';
+				}
+				return $data;
+	}
+	public function update($id,$imie,$nazwisko,$miasto)
+	{
+		$data = array();
+		if($id ===NULL || $imie===NULL || $nazwisko===NULL || $miasto===NULL )
+		{
+			$data['msg'] = 'Nieokreslone wartosci!';
+			return $data;
+		}
+		try
+		{
+			$stmt = $this->pdo->prepare('UPDATE `koordynator` SET `imie` = :imie, `nazwisko` = :nazwisko, `miasto` = :miasto WHERE `koordynator`.`id` = :id');
+			$stmt->bindValue(':id',$id,PDO::PARAM_INT);
+			$stmt->bindValue(':imie',$imie,PDO::PARAM_STR);
+			$stmt->bindValue(':nazwisko',$nazwisko,PDO::PARAM_STR);
+			$stmt->bindValue(':miasto',$miasto,PDO::PARAM_STR);
+			$result =$stmt->execute();
+			$rows = $stmt->rowCount();
+			$stmt->closeCursor();
+			
+			$data['msg'] = $result ? 'OK' : "Nie znaleziono kategorii o id = $id!";
+		}
+		catch(\PDOException $e)
+		{
+			$data['msg'] = 'Po³¹czenie z baz¹ nie powido³o siê!';
+		}
+		return $data;
+	}
+	public function delete($id){
+		$data = array();
+		if($id === NULL)
+			$data['error'] = 'NieokreÅ›lone id!';
+			else if(!$this->pdo)
+				$data['error'] = 'PoÅ‚Ä…czenie z bazÄ… nie powidoÅ‚o siÄ™!';
+				else
+					try
+					{
+						$stmt = $this->pdo->prepare('UPDATE `koordynator` SET aktywny=0 WHERE `id`=:id');
+						$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+						$result = $stmt->execute();
+						$rows = $stmt->rowCount();
+						$stmt->closeCursor();
+						$data['msg'] = ($result && $rows > 0) ? 'OK' : "Nie znaleziono ksiazki o id = $id!";}
+				catch(\PDOException $e)
+				{
+					$data['error'] = 'BÅ‚Ä…d odczytu danych z bazy!';
+				}
+				return $data;
+	}
+	//model dodaje wybranÄ… kategoriÄ™
+	public function insert($imie,$nazwisko,$miasto) {
+		$data = array();
+		if($imie === NULL || $imie === "" || $nazwisko === NULL || $nazwisko === "" || $miasto === NULL || $miasto === "")
+			$data['error'] = 'NieokreÅ›lona nazwa!';
+			else if(!$this->pdo)
+				$data['error'] = 'PoÅ‚Ä…czenie z bazÄ… nie powidoÅ‚o siÄ™!';
+				else
+					try
+					{
+						$stmt = $this->pdo->prepare('INSERT INTO `koordynator` (`imie`,`nazwisko`,`miasto`,`aktywny`) VALUES (:imie,:nazwisko,:miasto,1)');
+						$stmt->bindValue(':imie', $imie, PDO::PARAM_STR);
+						$stmt->bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);
+						$stmt->bindValue(':miasto', $miasto, PDO::PARAM_STR);
+						$stmt->execute();
+						$stmt->closeCursor();
+				}
+				catch(\PDOException $e)
+				{
+					$data['error'] = 'BÅ‚Ä…d zapisu danych do bazy!';
+				}
+				return $data;
+	}
+}
+?>
