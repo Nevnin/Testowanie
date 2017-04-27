@@ -14,7 +14,18 @@
     </head>
     <body>
         <div class="jumbotron text-center">
-  <h1>Nazwa firmy</h1>
+{if isset($typkonta)}
+ {if $typkonta==1}
+  <h1>Panel Administratora</h1>
+  {else if $typkonta==2}
+  <h1>Panel Doradcy</h1>
+  {/if}
+{/if}
+
+
+ {if isset($login)}
+{if isset($typkonta)}
+	 {if $typkonta==1}
   <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Grupowanie "marki" i przycisku rozwijania mobilnego menu -->
@@ -28,6 +39,9 @@
       <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}/">"Marka - Logo strony"</a>
     </div>
 
+	 
+	 
+	 
     <!-- Grupowanie element�w menu w celu lepszego wy�wietlania na urz�dzeniach moblinych -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -50,13 +64,90 @@
         <li> <a href="#" class="dropdown-toggle" >Raport sprzedaży</a></li>
       </ul>
        <ul class="nav navbar-nav navbar-right">
-		    {if !isset($login)}
-          <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Access/logform"><span class="glyphicon glyphicon-log-in"></span>Zaloguj</a></li>
-          {else}
+		   
+          
+         
+
           <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Access/logout"><span class="glyphicon glyphicon-log-in"></span>Wyloguj</a></li>
-          {/if}
           </ul>	
     </div><!-- /.navbar-collapse -->
+    
+    
+    
+   {else if $typkonta==2}
+   
+   
+   
+     <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Grupowanie "marki" i przycisku rozwijania mobilnego menu -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Rozwi� nawigacj�</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}/">"Marka - Logo strony"</a>
+    </div>
+
+	 
+	 
+	 
+    <!-- Grupowanie element�w menu w celu lepszego wy�wietlania na urz�dzeniach moblinych -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+       
+      
+        <li> <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/addPred" class="dropdown-toggle" >Dodanie predykcji sprzedaży</a></li>
+      </ul>
+       <ul class="nav navbar-nav navbar-right">
+
+          
+          <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Access/logout"><span class="glyphicon glyphicon-log-in"></span>Wyloguj</a></li>
+
+          </ul>	
+    </div><!-- /.navbar-collapse -->
+   
+
+    {/if}
+    {/if}
+    {else}
+         <nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Grupowanie "marki" i przycisku rozwijania mobilnego menu -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Rozwi� nawigacj�</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}/">"Marka - Logo strony"</a>
+    </div>
+
+	 
+	 
+	 
+    <!-- Grupowanie element�w menu w celu lepszego wy�wietlania na urz�dzeniach moblinych -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+       
+      
+       
+      </ul>
+       <ul class="nav navbar-nav navbar-right">
+
+          
+          <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Access/logform"><span class="glyphicon glyphicon-log-in"></span>Zaloguj</a></li>
+
+          </ul>	
+    </div><!-- /.navbar-collapse -->
+    
+          
+          
+          {/if}
+   
   </div><!-- /.container-fluid -->
 </nav>
         </div>

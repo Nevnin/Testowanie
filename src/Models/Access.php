@@ -9,14 +9,22 @@
 			
 			
 			$result = $stmt->execute();
+			$uzytkownicy = $stmt->fetchAll();
 			//d($result);
 			$rows = $stmt->rowCount();
+			
+			foreach($uzytkownicy as $uzytkownik)
+			{
+				$typ=$uzytkownik['typKonta'];
+				
+			}
+			
 			//    d($rows);
 			//if($login === 'user' && $password == md5('password'))
 			if($result && $rows == 1 )
 			{
 				//zainicjalizowanie sesji
-				\Tools\Access::login($login);
+				\Tools\Access::login($login,$typ);
 				
 				return 0;
 			}

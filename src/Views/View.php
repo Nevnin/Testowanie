@@ -8,6 +8,13 @@
 			$this->set('subdir', '/'.\Config\Website\Config::$subdir);
 			if(\Tools\Access::islogin() === true)
 				$this->set('login',true);
+			
+				if(isset($_SESSION['typkonta']))
+				{
+					$zmienna2 = $_SESSION['typkonta'];
+					$this->set("typkonta",$zmienna2);
+					
+				}
 		}
 		//załadowanie modelu
 		public function getModel($name){
@@ -21,6 +28,7 @@
 		public function render($name) {
 			$path='templates'.DIRECTORY_SEPARATOR;
 			$path.=$name.'.html.php';
+			include "PlikiSesji.php";
 			try {
 				if(is_file($path)) {
 					$this->smarty->display($path);

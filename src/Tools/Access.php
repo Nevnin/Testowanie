@@ -4,10 +4,11 @@
 	class Access extends Session {
 		private static $login = 'user';
 		private static $loginTime = 'logintime';
-		private static $sessionTime = 60;
+		private static $sessionTime = 10000;
+		private static $typKonta = 'typkonta';
 		
 		//zaloguj
-		public static function login($login) {
+		public static function login($login, $typ) {
 			//sprawdzenie istniejπcej sesji
 			if(parent::check() === true)
 			{
@@ -16,6 +17,7 @@
 				
 				parent::set(self::$login, $login);
 				parent::set(self::$loginTime, time());
+				parent::set(self::$typKonta,$typ);
 			}
 		}
 		//wyloguj
@@ -23,6 +25,8 @@
 			parent::clear(self::$login);
 			parent::clear(self::$loginTime);
 			parent::regenerate();
+			
+		
 		}
 		//sprawdü czy jest zalogowany
 		public static function islogin() {
