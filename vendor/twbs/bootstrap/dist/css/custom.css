@@ -1,0 +1,14 @@
+.autocomplete.ui-autocomplete-loading {
+	background-image: url('../images/ajax-loader.gif');
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+#mydiv, #mydiv2 {
+  padding: 20px;
+  border: 2px solid #aaaaaa;	
+}
+.myclass {
+  margin: 10px;
+  padding: 10px;
+  border: 4px solid #ff0000;
+}
