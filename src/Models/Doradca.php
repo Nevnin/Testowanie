@@ -6,24 +6,56 @@ class Doradca extends Model {
 	public function getAll(){
 		$data = array();
 		if(!$this->pdo)
-			$data['msg'] = 'Połączenie z bazą nie powidoło się!';
+			$data['msg'] = 'Po��czenie z baz� nie powido�o si�!';
 			else
 				try
 				{
 					$doradca = array();
-					$stmt = $this->pdo->query('SELECT doradca.id,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator`');
+
+					$stmt = $this->pdo->query('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.aktywny=1 ' );
 					$doradca = $stmt->fetchAll();
+
 					$stmt->closeCursor();
 					if($doradca && !empty($doradca))
 						$data['doradca'] = $doradca;
 						else
 							$data['doradca'] = array();
+							$data['msg'] = 'OK';
 			}
 			catch(\PDOException $e)
 			{
-				$data['msg'] = 'Błąd odczytu danych z bazy!';
+				$data['msg'] = 'B��d odczytu danych z bazy!';
 			}
 			return $data;
+	}
+	public function update($id,$imie,$nazwisko,$miasto,$sid,$koordynator)
+	{
+		$data = array();
+		if($id ===NULL || $imie===NULL || $nazwisko===NULL || $miasto===NULL )
+		{
+			$data['msg'] = 'Nieokreslone wartosci!';
+			return $data;
+		}
+		try
+		{
+			$stmt = $this->pdo->prepare('UPDATE `doradca` SET `imie` = :imie, `nazwisko` = :nazwisko, `miasto` = :miasto , `SID`=:sid, `koordynator`=:koordynator WHERE `doradca`.`id` = :id');
+			$stmt->bindValue(':id',$id,PDO::PARAM_INT);
+			$stmt->bindValue(':imie',$imie,PDO::PARAM_STR);
+			$stmt->bindValue(':nazwisko',$nazwisko,PDO::PARAM_STR);
+			$stmt->bindValue(':miasto',$miasto,PDO::PARAM_STR);
+			$stmt->bindValue(':sid',$sid,PDO::PARAM_STR);
+			$stmt->bindValue(':koordynator',$koordynator,PDO::PARAM_INT);
+			$result =$stmt->execute();
+			$rows = $stmt->rowCount();
+			$stmt->closeCursor();
+
+			$data['msg'] = $result ? 'OK' : "Nie znaleziono kategorii o id = $id!";
+		}
+		catch(\PDOException $e)
+		{
+			$data['msg'] = 'Po��czenie z baz� nie powido�o si�!';
+		}
+		return $data;
 	}
 	//model zwraca wybraną kategorię
 	public function getOne($id){
@@ -49,7 +81,7 @@ class Doradca extends Model {
 							//$data['category'] = array();
 							$data['error'] = "Brak doradcaa o id=$id!";
 						}
-						
+
 				}
 				catch(\PDOException $e)
 				{
@@ -67,7 +99,7 @@ class Doradca extends Model {
 				else
 					try
 					{
-						$stmt = $this->pdo->prepare('DELETE FROM `doradca` WHERE `id`=:id');
+						$stmt = $this->pdo->prepare('UPDATE `doradca` SET aktywny=0 WHERE `id`=:id');
 						$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 						$result = $stmt->execute();
 						$rows = $stmt->rowCount();
@@ -82,7 +114,7 @@ class Doradca extends Model {
 				return $data;
 	}
 	//model dodaje wybraną kategorię
-	public function insert($imie,$nazwisko,$miasto) {
+	public function insert($imie,$nazwisko,$miasto,$SID,$koordynator) {
 		$data = array();
 		if($imie === NULL || $imie === "" || $nazwisko === NULL || $nazwisko === "" || $miasto === NULL || $miasto === "")
 			$data['error'] = 'Nieokreślona nazwa!';
@@ -91,15 +123,31 @@ class Doradca extends Model {
 				else
 					try
 					{
-						$stmt = $this->pdo->prepare('INSERT INTO `doradca` (`imie`,`nazwisko`,`miasto`,`aktywny`) VALUES (:imie,:nazwisko,:miasto,1)');
+						$stmt = $this->pdo->prepare('INSERT INTO `doradca` (`imie`,`nazwisko`,`miasto`,`SID`,`koordynator`,`aktywny`) VALUES (:imie,:nazwisko,:miasto,:SID,:koordynator,1)');
 						$stmt->bindValue(':imie', $imie, PDO::PARAM_STR);
 						$stmt->bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);
 						$stmt->bindValue(':miasto', $miasto, PDO::PARAM_STR);
+						$stmt->bindValue(':SID', $SID, PDO::PARAM_STR);
+						$stmt->bindValue(':koordynator', $koordynator, PDO::PARAM_INT);
 						$stmt->execute();
 						$stmt->closeCursor();
 				}
 				catch(\PDOException $e)
 				{
+					$data['error'] = 'Błąd zapisu danych do bazy!';
+				}
+				return $data;
+	}
+	public function insertPred($tydzien, $pred, $sprzed){
+		$data = array();
+		if($tydzien === NULL || $tydzien === "" || $pred === NULL || $pred === "" || $sprzed === NULL || $sprzed === "")
+		$data['error'] = 'Nieokreślona nazwa!';
+		else if(!$this->pdo)
+			$data['error'] = 'Połączenie z bazą nie powidoło się!';
+			else
+				try {
+
+				} catch(\PDOException $e) {
 					$data['error'] = 'Błąd zapisu danych do bazy!';
 				}
 				return $data;

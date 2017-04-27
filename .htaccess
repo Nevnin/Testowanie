@@ -10,10 +10,18 @@ RewriteRule ^Koordynator/?$ index.php?Controller=Koordynator [L]
 RewriteRule ^Koordynator/dodajKS/?$ index.php?Controller=Koordynator&action=add [L]
 RewriteRule ^Koordynator/insert/?$ index.php?Controller=Koordynator&action=insert [L]
 RewriteRule ^Koordynator/delete/(\d+)/?$ index.php?Controller=Koordynator&action=delete&id=$1 [L]
+RewriteRule ^Koordynator/edycjaKS/(\d+)/?$ index.php?Controller=Koordynator&action=edycja&id=$1 [L]
+RewriteRule ^Koordynator/update/?$ index.php?Controller=Koordynator&action=update [L]
+
 
 RewriteRule ^Doradca/?$ index.php?Controller=Doradca [L]
 RewriteRule ^Doradca/dodajDB/?$ index.php?Controller=Doradca&action=add [L]
+RewriteRule ^Doradca/addPred/?$ index.php?Controller=Doradca&action=addPred [L]
 RewriteRule ^Doradca/insert/?$ index.php?Controller=Doradca&action=insert [L]
+RewriteRule ^Doradca/delete/(\d+)/?$ index.php?Controller=Doradca&action=delete&id=$1 [L]
+RewriteRule ^Doradca/edycjaDB/(\d+)/?$ index.php?Controller=Doradca&action=edycja&id=$1 [L]
+RewriteRule ^Doradca/update/?$ index.php?Controller=Doradca&action=update [L]
+
 
 RewriteRule ^Kategoria/showone/(\d+)/?$ index.php?Controller=Kategoria&action=showone&id=$1 [L]
 RewriteRule ^Kategoria/delete/(\d+)/?$ index.php?Controller=Kategoria&action=delete&id=$1 [L]

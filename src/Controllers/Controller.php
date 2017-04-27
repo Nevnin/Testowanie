@@ -9,16 +9,10 @@
 			\Config\Website\Config::$subdir.$url);
             
 		}
-		
 		public function getModel($name){
 			$name = 'Models\\'.$name;
-             try
-                    {
                         return new $name();
-                    }catch(PDOException $e)
-                    {
-                        echo $e->getMessage();
-                    }
+                   
 		}
 		
 		//załadowanie widoku

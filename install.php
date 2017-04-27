@@ -17,9 +17,7 @@
 		$drop1 = 'DROP TABLE IF EXISTS `doradca` ';
 		$pdo->exec($drop1);
         $drop1 = 'DROP TABLE IF EXISTS `koordynator` ';
-        $pdo->exec($drop1);
-        $drop1 = 'DROP TABLE IF EXISTS `uzytkownik` ';
-        $pdo->exec($drop1);
+         $pdo->exec($drop1);
       
         $query = "CREATE TABLE IF NOT EXISTS `koordynator`(
         `id` int NOT NULL AUTO_INCREMENT,
@@ -39,15 +37,6 @@
 		`aktywny` boolean NOT NULL,
         PRIMARY KEY(id))";
         $pdo->exec($query1);
-        
-        $query1 = "CREATE TABLE IF NOT EXISTS `uzytkownik`(
-        `id` int NOT NULL AUTO_INCREMENT,
-        `login` varchar(100) NOT NULL,
-        `haslo` varchar(100) NOT NULL,
-		`typKonta` int(1) NOT NULL,
-        PRIMARY KEY(id))";
-        $pdo->exec($query1);
-        
         
        $query3= "ALTER TABLE doradca ADD CONSTRAINT   FOREIGN KEY (`koordynator`) REFERENCES koordynator(`id`) ON DELETE CASCADE";
         $pdo->exec($query3);
@@ -85,22 +74,6 @@
         	$stmt->bindValue(':SID',$doradca['SID'],PDO::PARAM_STR);
         	$stmt->bindValue(':koordynator',$doradca['koordynator'],PDO::PARAM_INT);
         	$stmt->bindValue(':aktywny',$doradca['aktywny'],PDO::PARAM_INT);
-        	$stmt->execute();
-        }
-        
-        
-        $uzytkownicy = array();
-        $uzytkownicy[] = array('login'=>'admin','haslo'=>'0192023a7bbd73250516f069df18b500','typKonta'=>1);
-        $uzytkownicy[] = array('login'=>'123123123','haslo'=>'f5bb0c8de146c67b44babbf4e6584cc0','typKonta'=>2);
-       //hasla: admin, db
-        
-        $stmt = $pdo -> prepare('INSERT INTO `uzytkownik`(`login`,`haslo`,`typKonta`) VALUES(:login,:haslo,:typKonta)');
-        foreach($uzytkownicy as $uzytkownik)
-        {
-        	$stmt->bindValue(':login',$uzytkownik['login'],PDO::PARAM_STR);
-        	$stmt->bindValue(':haslo',$uzytkownik['haslo'],PDO::PARAM_STR);
-        	$stmt->bindValue(':typKonta',$uzytkownik['typKonta'],PDO::PARAM_INT);
-        
         	$stmt->execute();
         }
         

@@ -6,23 +6,7 @@
 	//przykład uwzględnia obsługę jednego kontrolera,
 	//który wykonuje określone akcje $action
 	//i może otrzymywać parametry poprzez zmienną $id
-\Config\Website\Config::$subdir ='Testowanie/';
-
-\Tools\Session::initialize();
-
-if(\Tools\Access::islogin() !== true) {
-	$mycontroller = new \Controllers\Access();
-	//Logowanie do systemu
-	if($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$mycontroller->login();
-	}
-	//Wy�wietlenie formularza do zalogowania
-	else {
-		$mycontroller->logform();
-	}
-}
-else {
-
+\Config\Website\Config::$subdir ='Doradcy/Testowanie/';
 if(isset($_GET['Controller']))
     $controller = $_GET['Controller'];
 else
@@ -44,7 +28,7 @@ else
 	
     $controller1->$action($id);
     
-}
+
 ?>
 
 
