@@ -52,7 +52,7 @@ class Koordynator extends Controller {
 		//tworzymy obiekt modelu i zlecamy dodanie kategorii
 		$model=$this->getModel('Koordynator');
 		if($model) {
-			$data = $model->update($_POST['id'],$_POST['imie'],$_POST['nazwisko'],$_POST['miasto']);
+			$data = $model->update($_POST['id'],$_POST['imie'],$_POST['nazwisko'],$_POST['miasto'],$_POST['aktywny']);
 			//nie przekazano komunikatów o błędzie
 		}
 		$this->redirect('Koordynator/');

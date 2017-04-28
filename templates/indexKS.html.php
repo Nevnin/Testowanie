@@ -14,6 +14,7 @@
     </thead>
         <tbody>
             {foreach $allKor as $id =>$dor}
+            {if $dor['aktywny']==1}
 		<tr class="">
 			<td>{$dor['id'] }</td>
 			<td>{$dor['imie'] }</td>   
@@ -21,6 +22,16 @@
             <td>{$dor['miasto']}</td> 
 			<td><a type="submit" href="http://{$smarty.server.HTTP_HOST}{$subdir}Koordynator/edycjaKS/{$dor['id']}">edytuj</a></td> 
 			<td><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Koordynator/delete/{$dor['id']}">zwolnij</a></td></tr>
+			{else}
+			<tr class="danger">
+			<td>{$dor['id'] }</td>
+			<td>{$dor['imie'] }</td>   
+            <td>{$dor['nazwisko']}</td>
+            <td>{$dor['miasto']}</td> 
+			<td><a type="submit" href="http://{$smarty.server.HTTP_HOST}{$subdir}Koordynator/edycjaKS/{$dor['id']}">edytuj</a></td> 
+			<td><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Koordynator/delete/{$dor['id']}">zwolnij</a></td></tr>
+			{/if}
+			
 	{/foreach}
         </tbody>
     </table>

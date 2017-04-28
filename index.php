@@ -8,7 +8,7 @@
 	//i może otrzymywać parametry poprzez zmienną $id
 \Config\Website\Config::$subdir ='Testowanie/';
 \Tools\Session::initialize();
-
+//include 'src/Views/PlikiSesji.php';
 if(\Tools\Access::islogin() !== true) {
 	$mycontroller = new \Controllers\Access();
 	//Logowanie do systemu
@@ -23,17 +23,18 @@ if(\Tools\Access::islogin() !== true) {
 else {
 if(isset($_GET['Controller']))
     $controller = $_GET['Controller'];
-else
-    $controller = 'Koordynator';
-	if(isset($_GET['action']))
-		$action = $_GET['action'];
-	else
-		$action = 'index';
-	if(isset($_GET['id']))
-		$id = $_GET['id'];
-	else	
-		$id = null;
-	//print($_SERVER["SERVER_NAME"]);
+else	
+		$controller = 'Koordynator';
+		if(isset($_GET['action']))
+			$action = $_GET['action'];
+			else
+				$action = 'index';
+				if(isset($_GET['id']))
+					$id = $_GET['id'];
+					else
+						$id = null;
+
+    //print($_SERVER["SERVER_NAME"]);
 //print($_SERVER["HTTP_HOST"]);
 	//tworzymy kontroler
 	$controller = 'Controllers\\'.$controller;
@@ -41,8 +42,8 @@ else
 	//wykonujemy akcję dla kontrolera
 	
     $controller1->$action($id);
-    
-}
+	}
+
 ?>
 
 

@@ -114,7 +114,7 @@ class Doradca extends Model {
 				return $data;
 	}
 	//model dodaje wybraną kategorię
-	public function insert($imie,$nazwisko,$miasto,$SID,$koordynator) {
+	public function insert($imie,$nazwisko,$miasto,$SID,$koordynator,$haslo) {
 		$data = array();
 		if($imie === NULL || $imie === "" || $nazwisko === NULL || $nazwisko === "" || $miasto === NULL || $miasto === "")
 			$data['error'] = 'Nieokreślona nazwa!';
@@ -123,12 +123,19 @@ class Doradca extends Model {
 				else
 					try
 					{
+						$numer= "D00319".$SID;
 						$stmt = $this->pdo->prepare('INSERT INTO `doradca` (`imie`,`nazwisko`,`miasto`,`SID`,`koordynator`,`aktywny`) VALUES (:imie,:nazwisko,:miasto,:SID,:koordynator,1)');
 						$stmt->bindValue(':imie', $imie, PDO::PARAM_STR);
 						$stmt->bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);
 						$stmt->bindValue(':miasto', $miasto, PDO::PARAM_STR);
-						$stmt->bindValue(':SID', $SID, PDO::PARAM_STR);
+						$stmt->bindValue(':SID', $numer, PDO::PARAM_STR);
 						$stmt->bindValue(':koordynator', $koordynator, PDO::PARAM_INT);
+						$stmt->execute();
+						$stmt->closeCursor();
+						
+						$stmt = $this->pdo->prepare('INSERT INTO `uzytkownik` (`login`,`haslo`,`typKonta`) VALUES (:login,:haslo,2)');
+						$stmt->bindValue(':login', $SID, PDO::PARAM_STR);
+						$stmt->bindValue(':haslo', $haslo, PDO::PARAM_STR);
 						$stmt->execute();
 						$stmt->closeCursor();
 				}

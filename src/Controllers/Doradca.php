@@ -68,7 +68,7 @@ class Doradca extends Controller {
 		//tworzymy obiekt modelu i zlecamy dodanie kategorii
 		$model=$this->getModel('Doradca');
 		if($model) {
-			$data = $model->insert($_POST['imie'],$_POST['nazwisko'],$_POST['miasto'],$_POST['sid'],$_POST['koordynator']);
+			$data = $model->insert($_POST['imie'],$_POST['nazwisko'],$_POST['miasto'],$_POST['sid'],$_POST['koordynator'],md5($_POST['haslo']));
 			//nie przekazano komunikatów o błędzie
 		}
 		$this->redirect('Doradca/');

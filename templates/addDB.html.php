@@ -3,7 +3,7 @@
     <div class="page-header">
 <h1  style="text-align: center;">Dodaj Doradce Biznesowego</h1>
 
-<form id="addKS" action="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/insert" method="post">
+<form id="addDB" action="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/insert" method="post">
     <div class="form-group">
     <label for="imie">Imię:</label>
     <input class="form-control" type="text" id="imie" name="imie" placeholder="Wprowadź imie doradcy" />
@@ -27,6 +27,10 @@
     <div class="form-group">
         <label for="miasto">Miasto:</label>
     <input type="text" name="miasto" id="miasto" class="form-control" placeholder="Wprowadź miasto doradcy" />    
+    </div>
+     <div class="form-group">
+        <label for="haslo">Has�o:</label>
+    <input type="password" name="haslo" id="haslo" class="form-control" placeholder="Wprowadź haslo do konta doradcy" />    
     </div>
     <button type="submit" class="btn btn-default" value="Dodaj">Dodaj</button>
 </form>

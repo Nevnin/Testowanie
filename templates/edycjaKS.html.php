@@ -21,6 +21,18 @@
         <label for="miasto">Miasto:</label>
     <input type="text" name="miasto" id="miasto" class="form-control" placeholder="Wprowadź miasto koordynatora"value="{$oneKor['miasto']}" />    
     </div>
+    	<div class="form-group">
+     <label for="aktywny">Aktywny:</label>
+        <select class="form-control" name=aktywny>
+        {if $oneKor['aktywny']==1}
+    <option value="1" selected="selected">tak</option>
+    <option value="0" >nie</option>
+    {else}
+     <option value="0" selected="selected">nie</option>
+    <option value="1" >tak</option>
+     {/if} 
+    </select>
+    </div>
     <button type="submit" class="btn btn-default" value="Dodaj">Edytuj</button>
 </form>
     </div>

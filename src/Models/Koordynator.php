@@ -12,7 +12,7 @@ class Koordynator extends Model {
 				{
 					$koordynator = array();
 					
-					$stmt = $this->pdo->query('SELECT  *  FROM `koordynator` WHERE aktywny=1 ' );
+					$stmt = $this->pdo->query('SELECT  *  FROM `koordynator` ' );
 					$koordynator = $stmt->fetchAll();
 					
 					$stmt->closeCursor();
@@ -84,7 +84,7 @@ class Koordynator extends Model {
 				}
 				return $data;
 	}
-	public function update($id,$imie,$nazwisko,$miasto)
+	public function update($id,$imie,$nazwisko,$miasto,$aktywny)
 	{
 		$data = array();
 		if($id ===NULL || $imie===NULL || $nazwisko===NULL || $miasto===NULL )
@@ -94,11 +94,12 @@ class Koordynator extends Model {
 		}
 		try
 		{
-			$stmt = $this->pdo->prepare('UPDATE `koordynator` SET `imie` = :imie, `nazwisko` = :nazwisko, `miasto` = :miasto WHERE `koordynator`.`id` = :id');
+			$stmt = $this->pdo->prepare('UPDATE `koordynator` SET `imie` = :imie, `nazwisko` = :nazwisko, `miasto` = :miasto, `aktywny`=:aktywny WHERE `koordynator`.`id` = :id');
 			$stmt->bindValue(':id',$id,PDO::PARAM_INT);
 			$stmt->bindValue(':imie',$imie,PDO::PARAM_STR);
 			$stmt->bindValue(':nazwisko',$nazwisko,PDO::PARAM_STR);
 			$stmt->bindValue(':miasto',$miasto,PDO::PARAM_STR);
+			$stmt->bindValue(':aktywny',$aktywny,PDO::PARAM_INT);
 			$result =$stmt->execute();
 			$rows = $stmt->rowCount();
 			$stmt->closeCursor();
@@ -110,6 +111,7 @@ class Koordynator extends Model {
 			$data['msg'] = 'Po³¹czenie z baz¹ nie powido³o siê!';
 		}
 		return $data;
+		
 	}
 	public function delete($id){
 		$data = array();
