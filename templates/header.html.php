@@ -15,11 +15,15 @@
     <body>
         <div class="jumbotron text-center">
 {if isset($typkonta)}
- {if $typkonta==1}
-  <h1>Panel Administratora</h1>
-  {else if $typkonta==2}
+
+ {if !isset($login)}
+  <h1>Witamy w systemie</h1>
+ {else if $typkonta==2}
   <h1>Panel Doradcy</h1>
-  {/if}
+ {else if $typkonta==1}
+ <h1>Panel Administratora</h1>
+
+{/if}
 {/if}
 
 
