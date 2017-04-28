@@ -74,10 +74,11 @@ class Doradca extends Controller {
 		$this->redirect('Doradca/');
 	}
 	public function insertPred() {
-		$model=$this->getModel('Doradca');
+		$model = $this->getModel('Doradca');
+		$day = date('d'); $month=date('m'); $year=date('Y');
+		$dataWpr = $year.'-'.$month.'-'.$day;
 		if($model) {
-			$data = $model->insert($_POST['tydzien'],$_POST['pred'],$_POST['sprzed'],$_POST['data']);
-			//nie przekazano komunikatów o błędzie
+			$data = $model->insertPred($_POST['tydzien'],$_POST['pred'],$_POST['sprzed'],$_POST['sprzedNaKoniec'],$dataWpr);
 		}
 		$this->redirect('Doradca/addPred');
 	}

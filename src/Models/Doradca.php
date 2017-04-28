@@ -138,19 +138,47 @@ class Doradca extends Model {
 				}
 				return $data;
 	}
-	public function insertPred($tydzien, $pred, $sprzed){
+	public function insertPred($tydzien, $pred, $sprzed, $sprzedNaKoniec, $dataWpr){
+		$IdDoradca = 1;
 		$data = array();
-		if($tydzien === NULL || $tydzien === "" || $pred === NULL || $pred === "" || $sprzed === NULL || $sprzed === "")
-		$data['error'] = 'Nieokreślona nazwa!';
+		if($tydzien === NULL || $tydzien === "" || $pred === NULL || $pred === "" || $sprzed === NULL || $sprzed === "" || $sprzedNaKoniec === NULL || $sprzedNaKoniec === "" || $dataWpr === NULL || $dataWpr === "")
+			$data['error'] = 'Nieokreślona nazwa!';
 		else if(!$this->pdo)
 			$data['error'] = 'Połączenie z bazą nie powidoło się!';
 			else
 				try {
-
+					$stmt = $this->pdo->prepare('INSERT INTO `predykcja`(`IdDoradca`, `DataWprowadzenia`, `PlanowanaSprzedaz`, `Sprzedane`, `SprzedazNaKoniec`, `Tydzien`) VALUES (:IdDoradca,:DataWprowadzenia,:PlanowanaSprzedaz,:Sprzedane,:SprzedazNaKoniec,:Tydzien)');
+					$stmt->bindValue(':IdDoradca' ,$IdDoradca, PDO::PARAM_INT);
+					$stmt->bindValue(':DataWprowadzenia' ,$dataWpr, PDO::PARAM_STR);
+					$stmt->bindValue(':PlanowanaSprzedaz' ,$pred, PDO::PARAM_INT);
+					$stmt->bindValue(':Sprzedane' ,$sprzed, PDO::PARAM_INT);
+					$stmt->bindValue(':SprzedazNaKoniec' ,$sprzedNaKoniec, PDO::PARAM_INT);
+					$stmt->bindValue(':Tydzien' ,$tydzien, PDO::PARAM_INT);
+					$stmt->execute();
+					$stmt->closeCursor();
 				} catch(\PDOException $e) {
 					$data['error'] = 'Błąd zapisu danych do bazy!';
 				}
 				return $data;
+	}
+	public function getPred(){
+		$id = 1;
+		$data = array();
+		try {
+			$stmt = $this->pdo->prepare('SELECT * FROM predykcja WHERE IdDoradca=:id');
+			$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+			$stmt->execute();
+			$predykcja = $stmt->fetchAll();
+			//d($predykcja);
+			if($predykcja && !empty($predykcja))
+				$data['doradca'] = $predykcja;
+			else
+				$data['doradca'] = array();
+			$data['msg'] = 'OK';
+	} catch(\PDOException $e) {
+		$data['error'] = 'Błąd odczytu danych z bazy!';
+	}
+	return $data;
 	}
 }
 ?>

@@ -73,11 +73,27 @@ class Doradca extends View {
 				$this->set('customScript', 'addDB');
 				$this->render('addDB');
 	}
-	//wyświetlenie widoku z formularzem do dodawania kategorii
+	//wyświetlenie widoku z formularzem do dodawania predykcji
 	public function addPred(){
+		$model = $this->getModel('Doradca');
+		if($model) {
+			$data = $model->getPred();
+			if(isset($data['doradca']))
+				$this->set('predDor', $data['doradca']);
+		}
+		if(isset($data['error']))
+			$this->set('error', $data['error']);
+			//przetworzenie szablonu do wyświetlania listy kategorii
+		/*
 		$info = getDate();
+		$month=date('m');
+		$year=date('Y');
+		$first='1/'.$month.'/'.$year;
+		$first=strtotime($first);
+		$weekday1=date('D',$first); //or $weekday1=date('l',$first);
 		$dataS = array('dzien' => $info['mday'],'miesiac' => $info['month'], 'miesiacNum' => $info['mon'], 'rok' => $info['year']);
 		$this->set('dataS', $dataS);
+		*/
 		$this->render('addPred');
 	}
 }
