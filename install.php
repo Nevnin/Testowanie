@@ -14,6 +14,8 @@
 
 	try
 	{
+		$drop1 = 'DROP TABLE IF EXISTS `predykcja` ';
+		$pdo->exec($drop1);
 		$drop1 = 'DROP TABLE IF EXISTS `doradca` ';
 		$pdo->exec($drop1);
         $drop1 = 'DROP TABLE IF EXISTS `koordynator` ';
@@ -50,6 +52,22 @@
         
        $query3= "ALTER TABLE doradca ADD CONSTRAINT   FOREIGN KEY (`koordynator`) REFERENCES koordynator(`id`) ON DELETE CASCADE";
         $pdo->exec($query3);
+        
+        $query = "CREATE TABLE `predykcja` (
+        		`IdPredykcja` int(11) NOT NULL AUTO_INCREMENT,
+        		`IdDoradca` int NOT NULL,
+        		`DataWprowadzenia` date NOT NULL,
+        		`PlanowanaSprzedaz` int(11) NOT NULL,
+        		`Sprzedane` int(11) NOT NULL,
+        		`SprzedazNaKoniec` int(11) NOT NULL,
+        		`Tydzien` varchar(5) NOT NULL,
+				PRIMARY KEY(IdPredykcja)
+        		)";
+		$pdo->exec($query);
+        
+        $query3= "ALTER TABLE predykcja ADD CONSTRAINT   FOREIGN KEY (`IdDoradca`) REFERENCES doradca(`id`) ON DELETE CASCADE";
+        $pdo->exec($query3);
+        
         
         $koordynator = array();
         $koordynator[] = array('imie'=>'Jan','nazwisko'=>'Kowalski','miasto'=>'Kalisz','aktywny'=>'1');
