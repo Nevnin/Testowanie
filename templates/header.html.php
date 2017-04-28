@@ -61,7 +61,7 @@
           <ul class="dropdown-menu" role="menu">
           <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/">Lista doradc�w</a></li>
             <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/dodajDB">Dodanie doradcy</a></li>
-          <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/addPred">Dodanie predykcji sprzedaży</a></li>
+          
 
           </ul>
         </li>
