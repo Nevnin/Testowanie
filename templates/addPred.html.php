@@ -7,32 +7,24 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th id="data" name="data">{$dataS['dzien']}/{$dataS['miesiacNum']}/{$dataS['rok']}</th>
-              <th>Ile sprzedam</th>
-              <th>Ile sprzedalem</th>
+              <!--<th id="data" name="data">{$dataS['dzien']}/{$dataS['miesiacNum']}/{$dataS['rok']}-->
+              <th>DataWprowadzenia</th>
+              <th>PlanowanaSprzedaz</th>
+              <th>Sprzedane</th>
+              <th>SprzedazNaKoniec</th>
+              <th>Tydzien</th>
             </tr>
           </thead>
           <tbody>
+            {foreach $predDor as $id=>$wiersz}
             <tr>
-              <td class="">Tydzien 1</td>
-              <td class="">6</td>
-              <td class="">6</td>
+              <td>{$wiersz['DataWprowadzenia']}</td>
+              <td>{$wiersz['PlanowanaSprzedaz']}</td>
+              <td>{$wiersz['Sprzedane']}</td>
+              <td>{$wiersz['SprzedazNaKoniec']}</td>
+              <td>{$wiersz['Tydzien']}</td>
             </tr>
-            <tr>
-              <td class="">Tydzien 2</td>
-              <td class="">5</td>
-              <td class=""></td>
-            </tr>
-            <tr>
-              <td class="">Tydzien 3</td>
-              <td class="">4</td>
-              <td class=""></td>
-            </tr>
-            <tr>
-              <td class="">Tydzien 4</td>
-              <td class="">3</td>
-              <td class=""></td>
-            </tr>
+            {/foreach}
           </tbody>
         </table>
       </div>
@@ -49,7 +41,10 @@
          <input type="text" class="form-control" name="pred" id="pred" placeholder="Podaj predykcje">
        </div>
        <div class="form-group">
-         <input type="text" class="form-control" name="sprzed" id="sprzed" placeholder="Podaj sprzedaz">
+         <input type="text" class="form-control" name="sprzed" id="sprzed" placeholder="Podaj sprzedane">
+       </div>
+       <div class="form-group">
+         <input type="text" class="form-control" name="sprzedNaKoniec" id="sprzedNaKoniec" placeholder="Podaj sprzedaz na koniec">
        </div>
        <button type="submit" class="btn btn-default" value="Dodaj">Dodaj</button>
     </form>
