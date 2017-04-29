@@ -43,6 +43,7 @@ class Doradca extends View {
 			$data = $model->getOne($id);
 			if(isset($data['doradca']))
 				$this->set('oneDor', $data['doradca']);
+				$this->set('kSID',$data['kSID']);
 
 		}
 		if(isset($data['error']))
@@ -55,6 +56,7 @@ class Doradca extends View {
 			}
 			if(isset($data['error']))
 				$this->set('error', $data['error']);
+				$this->set('customScript', 'addDB');
 			$this->render('edycjaDB');
 
 

@@ -38,12 +38,13 @@ class Doradca extends Model {
 		}
 		try
 		{
+			$numer= "D00319".$sid;
 			$stmt = $this->pdo->prepare('UPDATE `doradca` SET `imie` = :imie, `nazwisko` = :nazwisko, `miasto` = :miasto , `SID`=:sid, `koordynator`=:koordynator WHERE `doradca`.`id` = :id');
 			$stmt->bindValue(':id',$id,PDO::PARAM_INT);
 			$stmt->bindValue(':imie',$imie,PDO::PARAM_STR);
 			$stmt->bindValue(':nazwisko',$nazwisko,PDO::PARAM_STR);
 			$stmt->bindValue(':miasto',$miasto,PDO::PARAM_STR);
-			$stmt->bindValue(':sid',$sid,PDO::PARAM_STR);
+			$stmt->bindValue(':sid',$numer,PDO::PARAM_STR);
 			$stmt->bindValue(':koordynator',$koordynator,PDO::PARAM_INT);
 			$result =$stmt->execute();
 			$rows = $stmt->rowCount();
@@ -72,6 +73,12 @@ class Doradca extends Model {
 						$result = $stmt->execute();
 						$doradca = $stmt->fetchAll();
 						$stmt->closeCursor();
+						foreach ($doradca as $key => $value)
+						{
+							$string = $value['SID'];
+						}
+						$SID = substr($string,6,9);
+						$data['kSID']= $SID;
 						//czy istnieje kategoria o padanym id
 						if($result && $doradca && !empty($doradca)){
 							$data['doradca'] = $doradca[0];
@@ -87,6 +94,7 @@ class Doradca extends Model {
 				{
 					$data['error'] = 'Błąd odczytu danych z bazy!';
 				}
+				d($data);
 				return $data;
 	}
 	//model usuwa wybraną kategorię

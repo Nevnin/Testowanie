@@ -13,9 +13,19 @@
 		public function login(){
 			$model=$this->getModel('Access');
 			$result = $model->login($_POST['login'],md5($_POST['password']));
-			
-			if($result === 0)
-				$this->redirect('');
+			if($result === 0){
+				if(isset($_SESSION['typkonta']))
+				{
+					$zmienna2 = $_SESSION['typkonta'];
+				}
+				if($zmienna2==1){
+				$this->redirect('Koordynator');
+				}
+				else if($zmienna2==2)
+				{
+					$this->redirect('Doradca/addPred');
+				}
+			}
 				else
 					$this->logform($result);
 		}

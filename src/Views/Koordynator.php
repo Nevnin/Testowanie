@@ -53,7 +53,7 @@ class Koordynator extends View {
 		}
 		if(isset($data['error']))
 			$this->set('error', $data['error']);
-			
+			$this->set('customScript', 'addKS');
 			$this->render('edycjaKS');
 			
 			

@@ -3,7 +3,7 @@
     <div class="page-header">
 <h1  style="text-align: center;">Dodaj Doradce Biznesowego</h1>
 
-<form id="addKS" action="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/update" method="post">
+<form id="addDB" action="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/update" method="post">
     <div class="form-group">
     <label for="id">Id:</label>
     <input class="form-control" type="text" id="id" name="id" readonly value="{$oneDor['id']}"/>
@@ -18,7 +18,7 @@
     </div>
      <div class="form-group">
         <label for="sid">SID:</label>
-    <input type="text" name="sid" id="sid" class="form-control" placeholder="Wprowadź numer SID doradcy" value="{$oneDor['SID']}"/>    
+    <input type="text" name="sid" id="sid" class="form-control" placeholder="Wprowadź numer SID doradcy" value="{$kSID}"/>    
     </div>
    	<div class="form-group">
      <label for="autor">Koordynator:</label>
