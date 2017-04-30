@@ -75,10 +75,12 @@ class Doradca extends Controller {
 	}
 	public function insertPred() {
 		$model = $this->getModel('Doradca');
-		$day = date('d'); $month=date('m'); $year=date('Y');
-		$dataWpr = $year.'-'.$month.'-'.$day;
+		$myDate = date('Y').'-'.date('m').'-'.date('d');
 		if($model) {
-			$data = $model->insertPred($_POST['tydzien'],$_POST['pred'],$_POST['sprzed'],$_POST['sprzedNaKoniec'],$dataWpr);
+			$idDor = $model->getIdDor($_SESSION['user']);
+			if(isset($idDor['doradca'])){
+				$data = $model->insertPred($_POST['tydzien'],$_POST['pred'],$_POST['sprzed'],$_POST['sprzedNaKoniec'],$myDate, $idDor['doradca'][0][0]);
+			}
 		}
 		$this->redirect('Doradca/addPred');
 	}

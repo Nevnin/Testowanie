@@ -7,7 +7,7 @@
 <body>
 <?php
 	require './vendor/autoload.php';
-	
+
 	use Config\dbconf as DB;
 	DB::setDBConfig();
 	$pdo = DB::getHandle();
@@ -22,7 +22,7 @@
          $pdo->exec($drop1);
          $drop1 = 'DROP TABLE IF EXISTS `uzytkownik` ';
          $pdo->exec($drop1);
-         
+
         $query = "CREATE TABLE IF NOT EXISTS `koordynator`(
         `id` int NOT NULL AUTO_INCREMENT,
 		`imie` varchar(100) NOT NULL,
@@ -41,7 +41,7 @@
 		`aktywny` boolean NOT NULL,
         PRIMARY KEY(id))";
         $pdo->exec($query1);
-        
+
         $query1 = "CREATE TABLE IF NOT EXISTS `uzytkownik`(
         `id` int NOT NULL AUTO_INCREMENT,
         `login` varchar(100) NOT NULL,
@@ -49,10 +49,10 @@
 		`typKonta` int(1) NOT NULL,
         PRIMARY KEY(id))";
         $pdo->exec($query1);
-        
+
        $query3= "ALTER TABLE doradca ADD CONSTRAINT   FOREIGN KEY (`koordynator`) REFERENCES koordynator(`id`) ON DELETE CASCADE";
         $pdo->exec($query3);
-        
+
         $query = "CREATE TABLE `predykcja` (
         		`IdPredykcja` int(11) NOT NULL AUTO_INCREMENT,
         		`IdDoradca` int NOT NULL,
@@ -64,15 +64,15 @@
 				PRIMARY KEY(IdPredykcja)
         		)";
 		$pdo->exec($query);
-        
+
         $query3= "ALTER TABLE predykcja ADD CONSTRAINT   FOREIGN KEY (`IdDoradca`) REFERENCES doradca(`id`) ON DELETE CASCADE";
         $pdo->exec($query3);
-        
-        
+
+
         $koordynator = array();
         $koordynator[] = array('imie'=>'Jan','nazwisko'=>'Kowalski','miasto'=>'Kalisz','aktywny'=>'1');
         $koordynator[] = array('imie'=>'Andrzej','nazwisko'=>'Nowak','miasto'=>'Kalisz','aktywny'=>'1');
-        $koordynator[] = array('imie'=>'Maria','nazwisko'=>'B�k','miasto'=>'Kalisz','aktywny'=>'1');
+        $koordynator[] = array('imie'=>'Maria','nazwisko'=>'B�k','miasto'=>'Kalisz','aktywny'=>'1');
         $koordynator[] = array('imie'=>'Jakub','nazwisko'=>'Mickiewicz','miasto'=>'Kalisz','aktywny'=>'1');
         $koordynator[] = array('imie'=>'Damian','nazwisko'=>'Sadownik','miasto'=>'Kalisz','aktywny'=>'1');
         $koordynator[] = array('imie'=>'Marcin','nazwisko'=>'Bukiewicz','miasto'=>'Kalisz','aktywny'=>'1');
@@ -86,13 +86,13 @@
         	$stmt->execute();
         }
         $doradcy = array();
-        $doradcy[] = array('imie'=>'Jan','nazwisko'=>'Dab','miasto'=>'Kalisz','SID'=>'234342545','koordynator'=>'1','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Marek','nazwisko'=>'Klon','miasto'=>'Kalisz','SID'=>'245656456','koordynator'=>'1','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Arek','nazwisko'=>'Sosna','miasto'=>'Kalisz','SID'=>'276562123','koordynator'=>'2','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Darek','nazwisko'=>'Kowalski','miasto'=>'Kalisz','SID'=>'278908765','koordynator'=>'3','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Mateusz','nazwisko'=>'Pyc','miasto'=>'Kalisz','SID'=>'243254653','koordynator'=>'4','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Kamil','nazwisko'=>'Bizan','miasto'=>'Kalisz','SID'=>'123789752','koordynator'=>'4','aktywny'=>'1');
-        
+        $doradcy[] = array('imie'=>'Jan','nazwisko'=>'Dab','miasto'=>'Kalisz','SID'=>'D00319545','koordynator'=>'1','aktywny'=>'1');
+        $doradcy[] = array('imie'=>'Marek','nazwisko'=>'Klon','miasto'=>'Kalisz','SID'=>'D00319456','koordynator'=>'1','aktywny'=>'1');
+        $doradcy[] = array('imie'=>'Arek','nazwisko'=>'Sosna','miasto'=>'Kalisz','SID'=>'D00319123','koordynator'=>'2','aktywny'=>'1');
+        $doradcy[] = array('imie'=>'Darek','nazwisko'=>'Kowalski','miasto'=>'Kalisz','SID'=>'D00319765','koordynator'=>'3','aktywny'=>'1');
+        $doradcy[] = array('imie'=>'Mateusz','nazwisko'=>'Pyc','miasto'=>'Kalisz','SID'=>'D00319653','koordynator'=>'4','aktywny'=>'1');
+        $doradcy[] = array('imie'=>'Kamil','nazwisko'=>'Bizan','miasto'=>'Kalisz','SID'=>'D00319752','koordynator'=>'4','aktywny'=>'1');
+
         $stmt = $pdo -> prepare('INSERT INTO `doradca`(`imie`,`nazwisko`,`miasto`,`SID`,`koordynator`,`aktywny`) VALUES(:imie,:nazwisko,:miasto,:SID,:koordynator,:aktywny)');
         foreach($doradcy as $doradca)
         {
@@ -106,29 +106,31 @@
         }
         $uzytkownicy = array();
         $dobrehaslo  = md5("admin");
+        $dobrehaslo2 = md5("123");
         $uzytkownicy[] = array('login'=>'admin','haslo'=>$dobrehaslo,'typKonta'=>1);
         $uzytkownicy[] = array('login'=>'123123123','haslo'=>'f5bb0c8de146c67b44babbf4e6584cc0','typKonta'=>2);
+        $uzytkownicy[] = array('login'=>'D00319123','haslo'=>$dobrehaslo2,'typKonta'=>2);
         //hasla: admin, db
-        
+
         $stmt = $pdo -> prepare('INSERT INTO `uzytkownik`(`login`,`haslo`,`typKonta`) VALUES(:login,:haslo,:typKonta)');
         foreach($uzytkownicy as $uzytkownik)
         {
         	$stmt->bindValue(':login',$uzytkownik['login'],PDO::PARAM_STR);
         	$stmt->bindValue(':haslo',$uzytkownik['haslo'],PDO::PARAM_STR);
         	$stmt->bindValue(':typKonta',$uzytkownik['typKonta'],PDO::PARAM_INT);
-        	
+
         	$stmt->execute();
         }
-        
+
 	}
 	catch(PDOException $e)
 	{
 		echo 'Wystąpił błąd biblioteki PDO: ' . $e->getMessage();
-	}	
-	
-	
+	}
 
-	
+
+
+
 ?>
 </body>
 </html>

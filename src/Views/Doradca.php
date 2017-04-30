@@ -79,9 +79,25 @@ class Doradca extends View {
 	public function addPred(){
 		$model = $this->getModel('Doradca');
 		if($model) {
-			$data = $model->getPred();
-			if(isset($data['doradca']))
-				$this->set('predDor', $data['doradca']);
+			$idDor = $model->getIdDor($_SESSION['user']);
+			//d($idDor['doradca'][0][0]);
+			if(isset($idDor['doradca'])){
+				$data = $model->getPred($idDor['doradca'][0][0],date("Y-m"));
+				$tygodnie = array();
+				$tygodnie[] = 1;
+				$tygodnie[] = 2;
+				$tygodnie[] = 3;
+				$tygodnie[] = 4;
+				for($i=0; $i<4; $i++){
+					if(isset($data['doradca'][$i]['Tydzien'])){
+						unset($tygodnie[$data['doradca'][$i]['Tydzien']-1]);
+					}
+				}
+				$this->set('tyg', $tygodnie);
+				if(isset($data['doradca'])){
+					$this->set('predDor', $data['doradca']);
+				}
+			}
 		}
 		if(isset($data['error']))
 			$this->set('error', $data['error']);
@@ -96,6 +112,22 @@ class Doradca extends View {
 		$dataS = array('dzien' => $info['mday'],'miesiac' => $info['month'], 'miesiacNum' => $info['mon'], 'rok' => $info['year']);
 		$this->set('dataS', $dataS);
 		*/
+		// $pierwsza = '2017-04-01';
+		// $druga = '2017-05-01';
+		//
+		// $monthyear = date("Y-m");
+		// $start = date("Y-m");
+		// $finish = date("Y-m",strtotime($druga));
+		// if($start > $finish){
+		// 	echo 'start > finish';
+		// }
+		// else if($start == $finish){
+		// 	echo 'start = finish';
+		// }
+		// else{
+		// 	echo 'start < finish';
+		// }
+		// d($start, $finish);
 		$this->render('addPred');
 	}
 }
