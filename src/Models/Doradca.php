@@ -166,7 +166,7 @@ class Doradca extends Model {
 						$stmt->bindValue(':koordynator', $koordynator, PDO::PARAM_INT);
 						$stmt->execute();
 						$stmt->closeCursor();
-						
+
 						$stmt = $this->pdo->prepare('INSERT INTO `uzytkownik` (`login`,`haslo`,`typKonta`) VALUES (:login,:haslo,2)');
 						$stmt->bindValue(':login', $SID, PDO::PARAM_STR);
 						$stmt->bindValue(':haslo', $haslo, PDO::PARAM_STR);
@@ -179,17 +179,16 @@ class Doradca extends Model {
 				}
 				return $data;
 	}
-	public function insertPred($tydzien, $pred, $sprzed, $sprzedNaKoniec, $dataWpr){
-		$IdDoradca = 1;
+	public function insertPred($tydzien, $pred, $sprzed, $sprzedNaKoniec, $dataWpr, $idDor){
 		$data = array();
-		if($tydzien === NULL || $tydzien === "" || $pred === NULL || $pred === "" || $sprzed === NULL || $sprzed === "" || $sprzedNaKoniec === NULL || $sprzedNaKoniec === "" || $dataWpr === NULL || $dataWpr === "")
+		if($tydzien === NULL || $tydzien === "" || $pred === NULL || $pred === "" || $sprzed === NULL || $sprzed === "" || $sprzedNaKoniec === NULL || $sprzedNaKoniec === "" || $dataWpr === NULL || $dataWpr === "" || $idDor === NULL || $idDor === "")
 			$data['error'] = 'Nieokreślona nazwa!';
 		else if(!$this->pdo)
 			$data['error'] = 'Połączenie z bazą nie powidoło się!';
 			else
 				try {
 					$stmt = $this->pdo->prepare('INSERT INTO `predykcja`(`IdDoradca`, `DataWprowadzenia`, `PlanowanaSprzedaz`, `Sprzedane`, `SprzedazNaKoniec`, `Tydzien`) VALUES (:IdDoradca,:DataWprowadzenia,:PlanowanaSprzedaz,:Sprzedane,:SprzedazNaKoniec,:Tydzien)');
-					$stmt->bindValue(':IdDoradca' ,$IdDoradca, PDO::PARAM_INT);
+					$stmt->bindValue(':IdDoradca' ,$idDor, PDO::PARAM_INT);
 					$stmt->bindValue(':DataWprowadzenia' ,$dataWpr, PDO::PARAM_STR);
 					$stmt->bindValue(':PlanowanaSprzedaz' ,$pred, PDO::PARAM_INT);
 					$stmt->bindValue(':Sprzedane' ,$sprzed, PDO::PARAM_INT);
@@ -202,24 +201,53 @@ class Doradca extends Model {
 				}
 				return $data;
 	}
-	public function getPred(){
-		$id = 1;
+	public function getPred($idDor, $myDate){
 		$data = array();
-		try {
-			$stmt = $this->pdo->prepare('SELECT * FROM predykcja WHERE IdDoradca=:id');
-			$stmt->bindValue(':id', $id, PDO::PARAM_INT);
-			$stmt->execute();
-			$predykcja = $stmt->fetchAll();
-			//d($predykcja);
-			if($predykcja && !empty($predykcja))
-				$data['doradca'] = $predykcja;
-			else
-				$data['doradca'] = array();
-			$data['msg'] = 'OK';
-	} catch(\PDOException $e) {
-		$data['error'] = 'Błąd odczytu danych z bazy!';
+		$myDate = $myDate.'%';
+		if($idDor === "" || $idDor === NULL)
+			$data['error'] = 'Nieokreślona nazwa!';
+		else if(!$this->pdo)
+			$data['error'] = 'Połączenie z bazą nie powidoło się!';
+		else
+			try {
+				$stmt = $this->pdo->prepare('SELECT * FROM predykcja WHERE IdDoradca=:id AND DataWprowadzenia LIKE :myDate ORDER BY Tydzien ASC');
+				$stmt->bindValue(':id', $idDor, PDO::PARAM_INT);
+				$stmt->bindValue(':myDate', $myDate, PDO::PARAM_STR);
+				$stmt->execute();
+				$predykcja = $stmt->fetchAll();
+				//d($predykcja);
+				if($predykcja && !empty($predykcja))
+					$data['doradca'] = $predykcja;
+				else
+					$data['doradca'] = array();
+				$data['msg'] = 'OK';
+		} catch(\PDOException $e) {
+			$data['error'] = 'Błąd odczytu danych z bazy!';
+		}
+		return $data;
 	}
-	return $data;
-	}
+	function getIdDor($sid){
+		$data = array();
+		if($sid === "" || $sid === NULL)
+			$data['error'] = 'Nieokreślona nazwa!';
+		else if(!$this->pdo)
+			$data['error'] = 'Połączenie z bazą nie powidoło się!';
+		else
+			try {
+				$stmt = $this->pdo->prepare('SELECT id FROM doradca WHERE SID=:sid');
+				$stmt->bindValue(':sid', $sid, PDO::PARAM_STR);
+				$stmt->execute();
+				$doradcaSid = $stmt->fetchAll();
+				if($doradcaSid && !empty($doradcaSid)){
+					$data['doradca'] = $doradcaSid;
+					$data['msg'] = 'OK';
+				}
+				else
+					$data['error'] = 'Nieznaleziono doradcy';
+			} catch(\PDOException $e) {
+				$data['error'] = 'Błąd odczytu danych do bazy!';
+			}
+			return $data;
+		}
 }
 ?>

@@ -31,10 +31,9 @@
        <div class="form-group">
          <label for="tydzien">Tydzien: </label>
          <select class="" type="text" id="tydzien" name="tydzien">
-           <option>1</option>
-           <option>2</option>
-           <option>3</option>
-           <option>4</option>
+          {foreach $tyg as $item=>$wiersz}
+            <option>{$wiersz}</option>
+          {/foreach}
          <select/>
        </div>
        <div class="form-group">

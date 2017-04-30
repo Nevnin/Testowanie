@@ -43,9 +43,9 @@
       <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}/">"Marka - Logo strony"</a>
     </div>
 
-	 
-	 
-	 
+
+
+
     <!-- Grupowanie element�w menu w celu lepszego wy�wietlania na urz�dzeniach moblinych -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -61,27 +61,27 @@
           <ul class="dropdown-menu" role="menu">
           <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/">Lista doradc�w</a></li>
             <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/dodajDB">Dodanie doradcy</a></li>
-          
+
 
           </ul>
         </li>
         <li> <a href="#" class="dropdown-toggle" >Raport sprzedaży</a></li>
       </ul>
        <ul class="nav navbar-nav navbar-right">
-		   
-          
-         
+
+
+
 
           <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Access/logout"><span class="glyphicon glyphicon-log-in"></span>Wyloguj</a></li>
-          </ul>	
+          </ul>
     </div><!-- /.navbar-collapse -->
-    
-    
-    
+
+
+
    {else if $typkonta==2}
-   
-   
-   
+
+
+
      <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Grupowanie "marki" i przycisku rozwijania mobilnego menu -->
@@ -92,27 +92,27 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}/">"Marka - Logo strony"</a>
+      <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/addPred">"Marka - Logo strony"</a>
     </div>
 
-	 
-	 
-	 
+
+
+
     <!-- Grupowanie element�w menu w celu lepszego wy�wietlania na urz�dzeniach moblinych -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-       
-      
+
+
         <li> <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/addPred" class="dropdown-toggle" >Dodanie predykcji sprzedaży</a></li>
       </ul>
        <ul class="nav navbar-nav navbar-right">
 
-          
+
           <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Access/logout"><span class="glyphicon glyphicon-log-in"></span>Wyloguj</a></li>
 
-          </ul>	
+          </ul>
     </div><!-- /.navbar-collapse -->
-   
+
 
     {/if}
     {/if}
@@ -130,28 +130,28 @@
       <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}/">"Marka - Logo strony"</a>
     </div>
 
-	 
-	 
-	 
+
+
+
     <!-- Grupowanie element�w menu w celu lepszego wy�wietlania na urz�dzeniach moblinych -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-       
-      
-       
+
+
+
       </ul>
        <ul class="nav navbar-nav navbar-right">
 
-          
+
           <li><a href="http://{$smarty.server.HTTP_HOST}{$subdir}Access/logform"><span class="glyphicon glyphicon-log-in"></span>Zaloguj</a></li>
 
-          </ul>	
+          </ul>
     </div><!-- /.navbar-collapse -->
-    
-          
-          
+
+
+
           {/if}
-   
+
   </div><!-- /.container-fluid -->
 </nav>
         </div>
