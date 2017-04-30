@@ -22,7 +22,7 @@ RewriteRule ^Doradca/insertPred/?$ index.php?Controller=Doradca&action=insertPre
 RewriteRule ^Doradca/delete/(\d+)/?$ index.php?Controller=Doradca&action=delete&id=$1 [L]
 RewriteRule ^Doradca/edycjaDB/(\d+)/?$ index.php?Controller=Doradca&action=edycja&id=$1 [L]
 RewriteRule ^Doradca/update/?$ index.php?Controller=Doradca&action=update [L]
-
+RewriteRule ^Doradca/szukaj/?$ index.php?Controller=Doradca&action=szukaj [L]
 
 RewriteRule ^Access/logform/?$ index.php?Controller=Access&action=logform [L]
 RewriteRule ^Access/login/?$ index.php?Controller=Access&action=login [L]

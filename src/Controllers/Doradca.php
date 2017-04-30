@@ -73,6 +73,14 @@ class Doradca extends Controller {
 		}
 		$this->redirect('Doradca/');
 	}
+	public function szukaj() {
+		//za operację na bazie danych odpowiedzialny jest model
+		//tworzymy obiekt modelu i zlecamy dodanie kategorii
+			//nie przekazano komunikatów o błędzie
+			$view = $this->getView('Doradca');
+			$view->szukaj($_POST['miastoKS']);
+			
+	}
 	public function insertPred() {
 		$model = $this->getModel('Doradca');
 		$myDate = date('Y').'-'.date('m').'-'.date('d');

@@ -20,6 +20,23 @@ class Doradca extends View {
 
 
 	}
+	public function szukaj($szukaj){
+		//pobranie z modelu listy Doradca
+		$model = $this->getModel('Doradca');
+		if($model) {
+			$data = $model->szukaj($szukaj);
+			if(isset($data['doradca']))
+				$this->set('allDor', $data['doradca']);
+		}
+		if(isset($data['error']))
+			$this->set('error', $data['error']);
+			//przetworzenie szablonu do wyświetlania listy kategorii
+			
+			$this->render('indexDB');
+			
+			
+			
+	}
 	//wyświetlenie widoku z wybraną kategorią
 	public function showone($id){
 		//pobranie wybranej kategorii
