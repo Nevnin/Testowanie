@@ -94,8 +94,34 @@ class Doradca extends Model {
 				{
 					$data['error'] = 'Błąd odczytu danych z bazy!';
 				}
-				d($data);
 				return $data;
+	}
+	public function szukaj($miastoKS){
+		$data = array();
+		if(!$this->pdo)
+			$data['msg'] = 'Po��czenie z baz� nie powido�o si�!';
+			else
+				try
+				{
+					$doradca = array();
+					$stmt = $this->pdo->prepare('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.miasto=:miasto OR koordynator.imie=:imie OR koordynator.nazwisko=:nazwisko' );
+					$stmt->bindValue(':miasto', $miastoKS, PDO::PARAM_STR);
+					$stmt->bindValue(':imie', $miastoKS, PDO::PARAM_STR);
+					$stmt->bindValue(':nazwisko', $miastoKS, PDO::PARAM_STR);
+					$result = $stmt->execute();
+					$doradca = $stmt->fetchAll();
+					$stmt->closeCursor();
+					if($doradca && !empty($doradca))
+						$data['doradca'] = $doradca;
+						else
+							$data['doradca'] = array();
+							$data['msg'] = 'OK';
+			}
+			catch(\PDOException $e)
+			{
+				$data['msg'] = 'B��d odczytu danych z bazy!';
+			}
+			return $data;
 	}
 	//model usuwa wybraną kategorię
 	public function delete($id){

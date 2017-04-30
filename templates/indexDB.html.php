@@ -1,6 +1,16 @@
  {include file="header.html.php"}
-<div>
+<div >
+
     <h1  style="text-align: center;">Lista Doradców Biznesowych</h1>
+    <div class="container">
+<form class="form-inline" action="http://{$smarty.server.HTTP_HOST}{$subdir}Doradca/szukaj" method="post">
+  <div class="form-group ">
+    <input type="text" class="form-control" id="miastoKS" name="miastoKS" placeholder="Wpisz miasto doradcy lub koordynatora doradcy" size="50">
+  </div>
+  <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+</form>
+</div>
+
     <table class="table table-bordered">
     <thead>
         <tr>
