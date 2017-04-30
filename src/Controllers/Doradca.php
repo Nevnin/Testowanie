@@ -79,7 +79,7 @@ class Doradca extends Controller {
 		if($model) {
 			$idDor = $model->getIdDor($_SESSION['user']);
 			if(isset($idDor['doradca'])){
-				$data = $model->insertPred($_POST['tydzien'],$_POST['pred'],$_POST['sprzed'],$_POST['sprzedNaKoniec'],$myDate, $idDor['doradca'][0][0]);
+				$data = $model->insertPred($_POST['tydzien'],$_POST['pred'],$_POST['sprzed'],$myDate, $idDor['doradca'][0][0]);
 			}
 		}
 		$this->redirect('Doradca/addPred');

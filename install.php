@@ -59,7 +59,6 @@
         		`DataWprowadzenia` date NOT NULL,
         		`PlanowanaSprzedaz` int(11) NOT NULL,
         		`Sprzedane` int(11) NOT NULL,
-        		`SprzedazNaKoniec` int(11) NOT NULL,
         		`Tydzien` varchar(5) NOT NULL,
 				PRIMARY KEY(IdPredykcja)
         		)";

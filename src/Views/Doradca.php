@@ -97,37 +97,14 @@ class Doradca extends View {
 				if(isset($data['doradca'])){
 					$this->set('predDor', $data['doradca']);
 				}
+				$sprzedazNaKoniec = $model->getSprzedazNaKoniec($idDor['doradca'][0][0],date("Y-m"));
+				if(isset($sprzedazNaKoniec['doradca'])){
+					$this->set('sprzNaKon', $sprzedazNaKoniec['doradca']);
+				}
 			}
 		}
 		if(isset($data['error']))
 			$this->set('error', $data['error']);
-			//przetworzenie szablonu do wyświetlania listy kategorii
-		/*
-		$info = getDate();
-		$month=date('m');
-		$year=date('Y');
-		$first='1/'.$month.'/'.$year;
-		$first=strtotime($first);
-		$weekday1=date('D',$first); //or $weekday1=date('l',$first);
-		$dataS = array('dzien' => $info['mday'],'miesiac' => $info['month'], 'miesiacNum' => $info['mon'], 'rok' => $info['year']);
-		$this->set('dataS', $dataS);
-		*/
-		// $pierwsza = '2017-04-01';
-		// $druga = '2017-05-01';
-		//
-		// $monthyear = date("Y-m");
-		// $start = date("Y-m");
-		// $finish = date("Y-m",strtotime($druga));
-		// if($start > $finish){
-		// 	echo 'start > finish';
-		// }
-		// else if($start == $finish){
-		// 	echo 'start = finish';
-		// }
-		// else{
-		// 	echo 'start < finish';
-		// }
-		// d($start, $finish);
 		$this->render('addPred');
 	}
 }
