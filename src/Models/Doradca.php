@@ -104,10 +104,10 @@ class Doradca extends Model {
 				try
 				{
 					$doradca = array();
-					$stmt = $this->pdo->prepare('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.miasto=:miasto OR koordynator.imie=:imie OR koordynator.nazwisko=:nazwisko' );
-					$stmt->bindValue(':miasto', $miastoKS, PDO::PARAM_STR);
-					$stmt->bindValue(':imie', $miastoKS, PDO::PARAM_STR);
-					$stmt->bindValue(':nazwisko', $miastoKS, PDO::PARAM_STR);
+					$stmt = $this->pdo->prepare('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.miasto LIKE :miasto OR koordynator.imie LIKE :imie OR koordynator.nazwisko LIKE :nazwisko' );
+					$stmt->bindValue(':miasto', "%".$miastoKS."%", PDO::PARAM_STR);
+					$stmt->bindValue(':imie', "%".$miastoKS."%", PDO::PARAM_STR);
+					$stmt->bindValue(':nazwisko',"%".$miastoKS."%", PDO::PARAM_STR);
 					$result = $stmt->execute();
 					$doradca = $stmt->fetchAll();
 					$stmt->closeCursor();
