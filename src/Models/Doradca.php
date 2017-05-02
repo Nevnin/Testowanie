@@ -179,20 +179,19 @@ class Doradca extends Model {
 				}
 				return $data;
 	}
-	public function insertPred($tydzien, $pred, $sprzed, $sprzedNaKoniec, $dataWpr, $idDor){
+	public function insertPred($tydzien, $pred, $sprzed, $dataWpr, $idDor){
 		$data = array();
-		if($tydzien === NULL || $tydzien === "" || $pred === NULL || $pred === "" || $sprzed === NULL || $sprzed === "" || $sprzedNaKoniec === NULL || $sprzedNaKoniec === "" || $dataWpr === NULL || $dataWpr === "" || $idDor === NULL || $idDor === "")
+		if($tydzien === NULL || $tydzien === "" || $pred === NULL || $pred === "" || !is_numeric($pred) || $sprzed === NULL || $sprzed === "" || !is_numeric($sprzed) || $dataWpr === NULL || $dataWpr === "" || $idDor === NULL || $idDor === "" )
 			$data['error'] = 'Nieokreślona nazwa!';
 		else if(!$this->pdo)
 			$data['error'] = 'Połączenie z bazą nie powidoło się!';
 			else
 				try {
-					$stmt = $this->pdo->prepare('INSERT INTO `predykcja`(`IdDoradca`, `DataWprowadzenia`, `PlanowanaSprzedaz`, `Sprzedane`, `SprzedazNaKoniec`, `Tydzien`) VALUES (:IdDoradca,:DataWprowadzenia,:PlanowanaSprzedaz,:Sprzedane,:SprzedazNaKoniec,:Tydzien)');
+					$stmt = $this->pdo->prepare('INSERT INTO `predykcja`(`IdDoradca`, `DataWprowadzenia`, `PlanowanaSprzedaz`, `Sprzedane`, `Tydzien`) VALUES (:IdDoradca,:DataWprowadzenia,:PlanowanaSprzedaz,:Sprzedane,:Tydzien)');
 					$stmt->bindValue(':IdDoradca' ,$idDor, PDO::PARAM_INT);
 					$stmt->bindValue(':DataWprowadzenia' ,$dataWpr, PDO::PARAM_STR);
 					$stmt->bindValue(':PlanowanaSprzedaz' ,$pred, PDO::PARAM_INT);
 					$stmt->bindValue(':Sprzedane' ,$sprzed, PDO::PARAM_INT);
-					$stmt->bindValue(':SprzedazNaKoniec' ,$sprzedNaKoniec, PDO::PARAM_INT);
 					$stmt->bindValue(':Tydzien' ,$tydzien, PDO::PARAM_INT);
 					$stmt->execute();
 					$stmt->closeCursor();
@@ -203,14 +202,14 @@ class Doradca extends Model {
 	}
 	public function getPred($idDor, $myDate){
 		$data = array();
-		$myDate = $myDate.'%';
-		if($idDor === "" || $idDor === NULL)
+		if($idDor === "" || $idDor === NULL || $myDate === "" || $myDate === NULL)
 			$data['error'] = 'Nieokreślona nazwa!';
 		else if(!$this->pdo)
 			$data['error'] = 'Połączenie z bazą nie powidoło się!';
 		else
 			try {
-				$stmt = $this->pdo->prepare('SELECT * FROM predykcja WHERE IdDoradca=:id AND DataWprowadzenia LIKE :myDate ORDER BY Tydzien ASC');
+				$myDate = $myDate.'%';
+				$stmt = $this->pdo->prepare('SELECT IdDoradca, DataWprowadzenia, PlanowanaSprzedaz, Sprzedane, Tydzien FROM predykcja WHERE IdDoradca=:id AND DataWprowadzenia LIKE :myDate ORDER BY Tydzien ASC');
 				$stmt->bindValue(':id', $idDor, PDO::PARAM_INT);
 				$stmt->bindValue(':myDate', $myDate, PDO::PARAM_STR);
 				$stmt->execute();
@@ -225,6 +224,30 @@ class Doradca extends Model {
 			$data['error'] = 'Błąd odczytu danych z bazy!';
 		}
 		return $data;
+	}
+	function getSprzedazNaKoniec($idDor, $myDate){
+		$data = array();
+		if($idDor === "" || $idDor === NULL || $myDate === "" || $myDate === NULL)
+			$data['error'] = 'Nieokreślona nazwa!';
+		else if(!$this->pdo)
+			$data['error'] = 'Połączenie z bazą nie powidoło się!';
+		else
+			try {
+				$myDate = $myDate.'%';
+				$stmt = $this->pdo->prepare('SELECT SUM(Sprzedane) AS SprzedazNaKoniec FROM predykcja WHERE IdDoradca=:id AND DataWprowadzenia LIKE :myDate');
+				$stmt->bindValue(':id', $idDor, PDO::PARAM_INT);
+				$stmt->bindValue(':myDate', $myDate, PDO::PARAM_STR);
+				$stmt->execute();
+				$SprzedazNaKoniec = $stmt->fetchAll();
+				if($SprzedazNaKoniec && !empty($SprzedazNaKoniec))
+					$data['doradca'] = $SprzedazNaKoniec;
+				else
+					$data['doradca'] = array();
+				$data['msg'] = 'OK';
+			} catch(\PDOException $e) {
+				$data['error'] = 'Błąd odczytu danych z bazy!';
+			}
+			return $data;
 	}
 	function getIdDor($sid){
 		$data = array();

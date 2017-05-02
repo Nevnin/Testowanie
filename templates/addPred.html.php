@@ -11,7 +11,6 @@
               <th>DataWprowadzenia</th>
               <th>PlanowanaSprzedaz</th>
               <th>Sprzedane</th>
-              <th>SprzedazNaKoniec</th>
               <th>Tydzien</th>
             </tr>
           </thead>
@@ -21,10 +20,15 @@
               <td>{$wiersz['DataWprowadzenia']}</td>
               <td>{$wiersz['PlanowanaSprzedaz']}</td>
               <td>{$wiersz['Sprzedane']}</td>
-              <td>{$wiersz['SprzedazNaKoniec']}</td>
               <td>{$wiersz['Tydzien']}</td>
             </tr>
             {/foreach}
+            <tr>
+              <td></td>
+              <td>Sprzedaz na koniec : </td>
+              <td>{$sprzNaKon[0][0]}</td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -41,9 +45,6 @@
        </div>
        <div class="form-group">
          <input type="text" class="form-control" name="sprzed" id="sprzed" placeholder="Podaj sprzedane">
-       </div>
-       <div class="form-group">
-         <input type="text" class="form-control" name="sprzedNaKoniec" id="sprzedNaKoniec" placeholder="Podaj sprzedaz na koniec">
        </div>
        <button type="submit" class="btn btn-default" value="Dodaj">Dodaj</button>
     </form>
