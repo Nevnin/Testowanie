@@ -11,7 +11,7 @@
   <div class="form-group">
     <label for="name">Hasło</label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Wprowadź hasło">
-  </div>   
+  </div>
   <div class="alert alert-danger collapse" role="alert"></div>  
   {if isset($message)}
 	  <div class="alert alert-danger" role="alert">{$message}</div>
