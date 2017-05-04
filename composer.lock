@@ -4,29 +4,37 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9c1c974f940181de32b14730009407f",
+    "content-hash": "e871e799580f7d36036146ca99c300b7",
     "packages": [
         {
-            "name": "raveren/kint",
-            "version": "v0.9",
+            "name": "kint-php/kint",
+            "version": "2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/raveren/kint.git",
-                "reference": "ada810111ced4e3a926b4040da9b86442e43b613"
+                "url": "https://github.com/kint-php/kint.git",
+                "reference": "d6b2540da2477ec8f4c5d6d30807208e5f814d75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/raveren/kint/zipball/ada810111ced4e3a926b4040da9b86442e43b613",
-                "reference": "ada810111ced4e3a926b4040da9b86442e43b613",
+                "url": "https://api.github.com/repos/kint-php/kint/zipball/d6b2540da2477ec8f4c5d6d30807208e5f814d75",
+                "reference": "d6b2540da2477ec8f4c5d6d30807208e5f814d75",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.0"
+                "php": ">=5.1.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpunit/phpunit": "^4.0",
+                "symfony/finder": "^2.6"
             },
             "type": "library",
             "autoload": {
                 "files": [
-                    "Kint.class.php"
+                    "init.php"
+                ],
+                "classmap": [
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -39,19 +47,22 @@
                     "homepage": "https://github.com/raveren"
                 },
                 {
+                    "name": "Jonathan Vollebregt",
+                    "homepage": "https://github.com/jnvsor"
+                },
+                {
                     "name": "Contributors",
-                    "homepage": "https://github.com/raveren/kint/contributors"
+                    "homepage": "https://github.com/kint-php/kint/graphs/contributors"
                 }
             ],
-            "description": "Kint - debugging helper for PHP developers",
-            "homepage": "https://github.com/raveren/kint",
+            "description": "Kint - debugging tool for PHP developers",
+            "homepage": "https://kint-php.github.io/kint/",
             "keywords": [
                 "debug",
                 "kint",
                 "php"
             ],
-            "abandoned": "kint-php/kint",
-            "time": "2013-08-12T22:46:16+00:00"
+            "time": "2017-04-22T13:41:40+00:00"
         },
         {
             "name": "smarty/smarty",

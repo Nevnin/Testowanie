@@ -7,7 +7,7 @@
 <body>
 <?php
 	require './vendor/autoload.php';
-
+  require './src/Models/Szyfr.php';
 	use Config\dbconf as DB;
 	DB::setDBConfig();
 	$pdo = DB::getHandle();
@@ -36,7 +36,7 @@
         `imie` varchar(100) NOT NULL,
         `nazwisko` varchar(100) NOT NULL,
 		`miasto` varchar(100) NOT NULL,
-		`SID` char(9) NOT NULL,
+		`SID` char(25) NOT NULL,
 		`koordynator` int NOT NULL,
 		`aktywny` boolean NOT NULL,
         PRIMARY KEY(id))";
@@ -54,11 +54,11 @@
         $pdo->exec($query3);
 
         $query = "CREATE TABLE `predykcja` (
-        		`IdPredykcja` int(11) NOT NULL AUTO_INCREMENT,
+        		`IdPredykcja` int NOT NULL AUTO_INCREMENT,
         		`IdDoradca` int NOT NULL,
-        		`DataWprowadzenia` date NOT NULL,
-        		`PlanowanaSprzedaz` int(11) NOT NULL,
-        		`Sprzedane` int(11) NOT NULL,
+        		`DataWprowadzenia` varchar(100) NOT NULL,
+        		`PlanowanaSprzedaz` varchar(100) NOT NULL,
+        		`Sprzedane` varchar(100) NOT NULL,
         		`Tydzien` varchar(5) NOT NULL,
 				PRIMARY KEY(IdPredykcja)
         		)";
@@ -69,12 +69,12 @@
 
 
         $koordynator = array();
-        $koordynator[] = array('imie'=>'Jan','nazwisko'=>'Kowalski','miasto'=>'Kalisz','aktywny'=>'1');
-        $koordynator[] = array('imie'=>'Andrzej','nazwisko'=>'Nowak','miasto'=>'Kalisz','aktywny'=>'1');
-        $koordynator[] = array('imie'=>'Maria','nazwisko'=>'B�k','miasto'=>'Kalisz','aktywny'=>'1');
-        $koordynator[] = array('imie'=>'Jakub','nazwisko'=>'Mickiewicz','miasto'=>'Kalisz','aktywny'=>'1');
-        $koordynator[] = array('imie'=>'Damian','nazwisko'=>'Sadownik','miasto'=>'Kalisz','aktywny'=>'1');
-        $koordynator[] = array('imie'=>'Marcin','nazwisko'=>'Bukiewicz','miasto'=>'Kalisz','aktywny'=>'1');
+        $koordynator[] = array('imie'=>encode('Jan'),'nazwisko'=>encode('Kowalski'),'miasto'=>encode('Kalisz'),'aktywny'=>'1');
+        $koordynator[] = array('imie'=>encode('Andrzej'),'nazwisko'=>encode('Nowak'),'miasto'=>encode('Kalisz'),'aktywny'=>'1');
+        $koordynator[] = array('imie'=>encode('Maria'),'nazwisko'=>encode('Bąk'),'miasto'=>encode('Kalisz'),'aktywny'=>'1');
+        $koordynator[] = array('imie'=>encode('Jakub'),'nazwisko'=>encode('Mickiewicz'),'miasto'=>encode('Kalisz'),'aktywny'=>'1');
+        $koordynator[] = array('imie'=>encode('Damian'),'nazwisko'=>encode('Sadownik'),'miasto'=>encode('Kalisz'),'aktywny'=>'1');
+        $koordynator[] = array('imie'=>encode('Marcin'),'nazwisko'=>encode('Bukiewicz'),'miasto'=>encode('Kalisz'),'aktywny'=>'1');
         $stmt = $pdo->prepare('INSERT INTO `koordynator`(`imie`,`nazwisko`,`miasto`,`aktywny`) VALUES (:imie,:nazwisko,:miasto,:aktywny)');
         foreach($koordynator as $kor)
         {
@@ -85,12 +85,12 @@
         	$stmt->execute();
         }
         $doradcy = array();
-        $doradcy[] = array('imie'=>'Jan','nazwisko'=>'Dab','miasto'=>'Kalisz','SID'=>'D00319545','koordynator'=>'1','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Marek','nazwisko'=>'Klon','miasto'=>'Kalisz','SID'=>'D00319456','koordynator'=>'1','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Arek','nazwisko'=>'Sosna','miasto'=>'Kalisz','SID'=>'D00319123','koordynator'=>'2','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Darek','nazwisko'=>'Kowalski','miasto'=>'Kalisz','SID'=>'D00319765','koordynator'=>'3','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Mateusz','nazwisko'=>'Pyc','miasto'=>'Kalisz','SID'=>'D00319653','koordynator'=>'4','aktywny'=>'1');
-        $doradcy[] = array('imie'=>'Kamil','nazwisko'=>'Bizan','miasto'=>'Kalisz','SID'=>'D00319752','koordynator'=>'4','aktywny'=>'1');
+        $doradcy[] = array('imie'=>encode('Jan'),     'nazwisko'=>encode('Dab'),      'miasto'=>encode('Kalisz'),'SID'=>encode('D00319123'),'koordynator'=>'1','aktywny'=>'1');
+        $doradcy[] = array('imie'=>encode('Marek'),   'nazwisko'=>encode('Klon'),     'miasto'=>encode('Kalisz'),'SID'=>encode('D00319456'),'koordynator'=>'1','aktywny'=>'1');
+        $doradcy[] = array('imie'=>encode('Arek'),    'nazwisko'=>encode('Sosna'),    'miasto'=>encode('Kalisz'),'SID'=>encode('D00319545'),'koordynator'=>'2','aktywny'=>'1');
+        $doradcy[] = array('imie'=>encode('Darek'),   'nazwisko'=>encode('Kowalski'), 'miasto'=>encode('Kalisz'),'SID'=>encode('D00319765'),'koordynator'=>'3','aktywny'=>'1');
+        $doradcy[] = array('imie'=>encode('Mateusz'), 'nazwisko'=>encode('Pyc'),      'miasto'=>encode('Kalisz'),'SID'=>encode('D00319653'),'koordynator'=>'4','aktywny'=>'1');
+        $doradcy[] = array('imie'=>encode('Kamil'),   'nazwisko'=>encode('Bizan'),    'miasto'=>encode('Kalisz'),'SID'=>encode('D00319752'),'koordynator'=>'4','aktywny'=>'1');
 
         $stmt = $pdo -> prepare('INSERT INTO `doradca`(`imie`,`nazwisko`,`miasto`,`SID`,`koordynator`,`aktywny`) VALUES(:imie,:nazwisko,:miasto,:SID,:koordynator,:aktywny)');
         foreach($doradcy as $doradca)
@@ -106,9 +106,8 @@
         $uzytkownicy = array();
         $dobrehaslo  = md5("admin");
         $dobrehaslo2 = md5("123");
-        $uzytkownicy[] = array('login'=>'admin','haslo'=>$dobrehaslo,'typKonta'=>1);
-        $uzytkownicy[] = array('login'=>'123123123','haslo'=>'f5bb0c8de146c67b44babbf4e6584cc0','typKonta'=>2);
-        $uzytkownicy[] = array('login'=>'D00319123','haslo'=>$dobrehaslo2,'typKonta'=>2);
+        $uzytkownicy[] = array('login'=>encode('admin'),    'haslo'=>$dobrehaslo, 'typKonta'=>1);
+        $uzytkownicy[] = array('login'=>encode('D00319123'),'haslo'=>$dobrehaslo2,'typKonta'=>2);
         //hasla: admin, db
 
         $stmt = $pdo -> prepare('INSERT INTO `uzytkownik`(`login`,`haslo`,`typKonta`) VALUES(:login,:haslo,:typKonta)');

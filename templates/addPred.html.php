@@ -26,7 +26,7 @@
             <tr>
               <td></td>
               <td>Sprzedaz na koniec : </td>
-              <td>{$sprzNaKon[0][0]}</td>
+              <td>{$sumaSp}</td>
               <td></td>
             </tr>
           </tbody>

@@ -31,11 +31,11 @@ class Doradca extends View {
 		if(isset($data['error']))
 			$this->set('error', $data['error']);
 			//przetworzenie szablonu do wyświetlania listy kategorii
-			
+
 			$this->render('indexDB');
-			
-			
-			
+
+
+
 	}
 	//wyświetlenie widoku z wybraną kategorią
 	public function showone($id){
@@ -107,16 +107,18 @@ class Doradca extends View {
 				$tygodnie[] = 4;
 				for($i=0; $i<4; $i++){
 					if(isset($data['doradca'][$i]['Tydzien'])){
+						//d($data);
 						unset($tygodnie[$data['doradca'][$i]['Tydzien']-1]);
 					}
 				}
 				$this->set('tyg', $tygodnie);
 				if(isset($data['doradca'])){
 					$this->set('predDor', $data['doradca']);
-				}
-				$sprzedazNaKoniec = $model->getSprzedazNaKoniec($idDor['doradca'][0][0],date("Y-m"));
-				if(isset($sprzedazNaKoniec['doradca'])){
-					$this->set('sprzNaKon', $sprzedazNaKoniec['doradca']);
+					if(isset($data['sumaSp'])){
+						$this->set('sumaSp', $data['sumaSp']);
+					}else{
+						$this->set('sumaSp', 0);
+					}
 				}
 			}
 		}

@@ -79,7 +79,7 @@ class Doradca extends Controller {
 			//nie przekazano komunikatów o błędzie
 			$view = $this->getView('Doradca');
 			$view->szukaj($_POST['miastoKS']);
-			
+
 	}
 	public function insertPred() {
 		$model = $this->getModel('Doradca');
