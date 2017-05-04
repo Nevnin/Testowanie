@@ -3,6 +3,7 @@ namespace Models;
 use \PDO;
 class Raport extends Model {
 	//model zwraca tablicę wszystkich kategorii
+	
 	public function getAll(){
 		$data = array();
 		if(!$this->pdo)

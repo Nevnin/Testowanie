@@ -117,6 +117,7 @@
     {/if}
     {/if}
     {else}
+    
          <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Grupowanie "marki" i przycisku rozwijania mobilnego menu -->

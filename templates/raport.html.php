@@ -39,6 +39,7 @@
         <tbody>
             {foreach $allDorR as $id =>$dor}
            
+           
 		<tr class="">
 			<td>{$dor[0] }</td>
 			<td>{$dor[1] }</td>   

@@ -1,6 +1,5 @@
 <?php
 namespace Views;
-
 class Raport extends View {
 	//wyświetlenie widoku z Doradca
 	public function index(){
