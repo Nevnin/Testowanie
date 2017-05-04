@@ -25,12 +25,16 @@ class Raport extends Model {
 						$ND = $doradca[3];
 						$IK = $doradca[4];
 						$NK = $doradca[5];
+						$id = $doradca[1];
 						$IND = $ID[0].". ".$ND[0].".";
 						$INK = $IK[0]."".$IK[1]."".$NK[0]."".$NK[1];
 						//$dor[1]=$IND;
 						//$dor[2]=$INK;
-						$dor[]=array('SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK);
-					
+			
+// 						$dorr = getInfo($id);
+// 						d($dorr);
+						$dor[]=array('IdDoradcy'=>$id,'SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK);
+						
 						
 					}
 					if($doradca && !empty($doradca))
@@ -46,7 +50,7 @@ class Raport extends Model {
 			return $data;
 	}
 	
-	public function getInfo(){
+	public function getInfo($id){
 		$data = array();
 		if(!$this->pdo)
 			$data['msg'] = 'Po��czenie z baz� nie powido�o si�!';
@@ -55,21 +59,41 @@ class Raport extends Model {
 				{
 					$doradca = array();
 					
-					$stmt = $this->pdo->query('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.aktywny=1 ' );
-					$doradca = $stmt->fetchAll();
+					$stmt = $this->pdo->prepare('SELECT Sprzedane, PlanowanaSprzedaz from `predykcja`WHERE IdDoradca = :id ' );
+					$stmt->bindValue(':id',$id,PDO::PARAM_STR);
+					$result = $stmt->execute();
+					$preds = $stmt->fetchAll();
+					
+// 					foreach($preds as $pred)
+// 					{
+// 						//$dor= {Doradca} => {$doradca[0]};
+// 						$ID = $doradca[2];
+// 						$ND = $doradca[3];
+// 						$IK = $doradca[4];
+// 						$NK = $doradca[5];
+// 						$IND = $ID[0].". ".$ND[0].".";
+// 						$INK = $IK[0]."".$IK[1]."".$NK[0]."".$NK[1];
+// 						//$dor[1]=$IND;
+// 						//$dor[2]=$INK;
+// 						$dor[]=array('IdDoradcy'=>$doradca[1],'SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK);
+						
+						
+// 					}
 					
 					$stmt->closeCursor();
-					if($doradca && !empty($doradca))
-						$data['doradca'] = $doradca;
+					if($preds&& !empty($preds))
+						$data['preds'] = $preds;
 						else
-							$data['doradca'] = array();
+							$data['preds'] = array();
 							$data['msg'] = 'OK';
 			}
 			catch(\PDOException $e)
 			{
 				$data['msg'] = 'B��d odczytu danych z bazy!';
 			}
+			d($data);
 			return $data;
+			
 	}
 	
 	
