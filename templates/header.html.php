@@ -65,7 +65,7 @@
 
           </ul>
         </li>
-        <li> <a href="#" class="dropdown-toggle" >Raport sprzedaży</a></li>
+        <li> <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Raport/" class="dropdown-toggle" >Raport sprzedaży</a></li>
       </ul>
        <ul class="nav navbar-nav navbar-right">
 
@@ -117,6 +117,7 @@
     {/if}
     {/if}
     {else}
+    
          <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Grupowanie "marki" i przycisku rozwijania mobilnego menu -->

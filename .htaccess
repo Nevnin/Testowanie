@@ -27,3 +27,5 @@ RewriteRule ^Doradca/szukaj/?$ index.php?Controller=Doradca&action=szukaj [L]
 RewriteRule ^Access/logform/?$ index.php?Controller=Access&action=logform [L]
 RewriteRule ^Access/login/?$ index.php?Controller=Access&action=login [L]
 RewriteRule ^Access/logout/?$ index.php?Controller=Access&action=logout [L]
+
+RewriteRule ^Raport/?$ index.php?Controller=Raport [L]
