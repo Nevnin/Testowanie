@@ -7,6 +7,7 @@ class Raport extends View {
 		$model = $this->getModel('Raport');
 		if($model) {
 			$data = $model->getAll();
+			$data1 = $model->getInfo();
 			if(isset($data['doradca']))
 				$this->set('allDorR', $data['doradca']);
 		}
