@@ -10,7 +10,7 @@
 		
 		//wyœwietla formularz do logowania
 		public function logform($result = null){
-			$this->set('customScript', 'logform');
+			//$this->set('customScript', 'logform');
 			if(isset($result)){
 				if(array_key_exists($result, self::$messages))
 					$this->set('message', self::$messages[$result]);
