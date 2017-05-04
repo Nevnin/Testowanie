@@ -20,12 +20,20 @@ class Raport extends Model {
 					
 					foreach($doradcy as $doradca)
 					{
+						$id = $doradca[1];
+						
+						$stmt1 = $this->pdo->prepare('SELECT Sprzedane, PlanowanaSprzedaz from `predykcja`WHERE IdDoradca = :id ' );
+						$stmt1->bindValue(':id',$id,PDO::PARAM_STR);
+						$result = $stmt1->execute();
+						$preds = $stmt1->fetchAll();
+					
+					
 						//$dor= {Doradca} => {$doradca[0]};
 						$ID = $doradca[2];
 						$ND = $doradca[3];
 						$IK = $doradca[4];
 						$NK = $doradca[5];
-						$id = $doradca[1];
+						
 						$IND = $ID[0].". ".$ND[0].".";
 						$INK = $IK[0]."".$IK[1]."".$NK[0]."".$NK[1];
 						//$dor[1]=$IND;
@@ -33,8 +41,8 @@ class Raport extends Model {
 			
 // 						$dorr = getInfo($id);
 // 						d($dorr);
-						$dor[]=array('IdDoradcy'=>$id,'SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK);
-						
+						$dor[]=array('IdDoradcy'=>$id,'SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK,'t1'=>$preds[0][0],'t1p'=>$preds[0][1],'t2'=>$preds[1][0],'t2p'=>$preds[1][1],'t3'=>$preds[2][0],'t3p'=>$preds[2][1],'t4'=>$preds[3][0],'t4p'=>$preds[3][1]);
+						//d($dor);
 						
 					}
 					if($doradca && !empty($doradca))
@@ -91,7 +99,7 @@ class Raport extends Model {
 			{
 				$data['msg'] = 'B��d odczytu danych z bazy!';
 			}
-			d($data);
+			//d($data);
 			return $data;
 			
 	}

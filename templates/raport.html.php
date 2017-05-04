@@ -44,6 +44,15 @@
 			<td>{$dor['Doradca']}</td>   
             <td>{$dor['DBPL']}</td>
             <td>PWSZ</td>
+            <td>{$dor['t1']}</td>
+            <td>{$dor['t1p']}</td>
+            <td>{$dor['t2']}</td>
+            <td>{$dor['t2p']}</td>
+            <td>{$dor['t3']}</td>
+            <td>{$dor['t3p']}</td>
+            <td>{$dor['t4']}</td>
+            <td>{$dor['t4p']}</td>
+            <td>Miesiac</td>
 
 		
 			
