@@ -24,7 +24,8 @@
             <th>DBPL</th>
             <th>Dealer</th>
             <th>Tydzien 1</th>
-            <th>Tydzien 1 Predykcja</th>
+            <th>Tydzien 1 
+            Predykcja</th>
             <th>Tydzien 2</th>
             <th>Tydzien 2 Predykcja</th>
             <th>Tydzien 3</th>
@@ -37,13 +38,14 @@
         </tr>
     </thead> 
         <tbody>
+        
             {foreach $allDorR as $id =>$dor}
-           
+           {d($dor)}
            
 		<tr class="">
-			<td>{$dor[0] }</td>
-			<td>{$dor[1] }</td>   
-            <td>{$dor[2]}</td>
+			<td>{$dor['SID']}</td>
+			<td>{$dor['Doradca']}</td>   
+            <td>{$dor['DBPL']}</td>
             <td>PWSZ</td>
 
 		

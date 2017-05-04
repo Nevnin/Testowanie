@@ -20,15 +20,16 @@ class Raport extends Model {
 					
 					foreach($doradcy as $doradca)
 					{
-						$dor[0]=$doradca[0];
+						//$dor= {Doradca} => {$doradca[0]};
 						$ID = $doradca[2];
 						$ND = $doradca[3];
 						$IK = $doradca[4];
 						$NK = $doradca[5];
-						$IND = $ID[0]+". "+$ND[0]+".";
-						$INK = $IK[0]+". "+$NK[0]+".";
-						$dor[1]=$IND;
-						$dor[2]=$INK;
+						$IND = $ID[0].". ".$ND[0].".";
+						$INK = $IK[0]."".$IK[1]."".$NK[0]."".$NK[1];
+						//$dor[1]=$IND;
+						//$dor[2]=$INK;
+						$dor[]=array('SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK);
 					
 						
 					}
