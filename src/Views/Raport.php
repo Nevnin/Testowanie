@@ -7,9 +7,13 @@ class Raport extends View {
 		$model = $this->getModel('Raport');
 		if($model) {
 			$data = $model->getAll();
-			$data1 = $model->getInfo();
+			
 			if(isset($data['doradca']))
 				$this->set('allDorR', $data['doradca']);
+				$Doradca=$data['doradca'];
+				foreach($Doradca as $id=>$value){
+				$data1 = $model->getInfo($value['IdDoradcy']);
+				}//d($data1['preds']);
 		}
 		if(isset($data['error']))
 			$this->set('error', $data['error']);

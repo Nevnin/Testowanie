@@ -31,8 +31,8 @@ class Raport extends Model {
 						//$dor[1]=$IND;
 						//$dor[2]=$INK;
 			
-						$dorr = getInfo($id);
-						d($dorr);
+// 						$dorr = getInfo($id);
+// 						d($dorr);
 						$dor[]=array('IdDoradcy'=>$id,'SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK);
 						
 						
@@ -59,13 +59,10 @@ class Raport extends Model {
 				{
 					$doradca = array();
 					
-					$stmt = $this->pdo->prepare('SELECT Sprzedane, PlanowanaSprzedaz from `predykcje`WHERE IdDoradca = :id ' );
+					$stmt = $this->pdo->prepare('SELECT Sprzedane, PlanowanaSprzedaz from `predykcja`WHERE IdDoradca = :id ' );
 					$stmt->bindValue(':id',$id,PDO::PARAM_STR);
-					
-					
 					$result = $stmt->execute();
 					$preds = $stmt->fetchAll();
-					
 					
 // 					foreach($preds as $pred)
 // 					{
@@ -85,16 +82,18 @@ class Raport extends Model {
 					
 					$stmt->closeCursor();
 					if($preds&& !empty($preds))
-						$data['doradca'] = $preds;
+						$data['preds'] = $preds;
 						else
-							$data['doradca'] = array();
+							$data['preds'] = array();
 							$data['msg'] = 'OK';
 			}
 			catch(\PDOException $e)
 			{
 				$data['msg'] = 'B��d odczytu danych z bazy!';
 			}
+			d($data);
 			return $data;
+			
 	}
 	
 	
