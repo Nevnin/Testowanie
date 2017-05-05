@@ -61,6 +61,8 @@
 	{/foreach}
         </tbody>
     </table>
+
+    
 </div>
 
 <ul>

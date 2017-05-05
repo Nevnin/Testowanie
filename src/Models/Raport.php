@@ -27,7 +27,17 @@ class Raport extends Model {
 						$result = $stmt1->execute();
 						$preds = $stmt1->fetchAll();
 					
+						$i=0;
 					
+						foreach($preds as $pred=>$value)
+						{
+							
+							
+							if(!isset($value[0]))$preds[$i][0]=0;	
+							if(!isset($value[1]))$preds[$i][1]=0;	
+							$i++;
+						}
+						d($preds);
 						//$dor= {Doradca} => {$doradca[0]};
 						$ID = $doradca[2];
 						$ND = $doradca[3];
