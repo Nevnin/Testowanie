@@ -7,7 +7,7 @@ class Raport extends View {
 		$model = $this->getModel('Raport');
 		if($model) {
 			$data = $model->getAll();
-			
+
 			if(isset($data['doradca']))
 				$this->set('allDorR', $data['doradca']);
 				$Doradca=$data['doradca'];
@@ -18,10 +18,10 @@ class Raport extends View {
 		if(isset($data['error']))
 			$this->set('error', $data['error']);
 			//przetworzenie szablonu do wyświetlania listy kategorii
-			
+
 			$this->render('raport');
-			
-			
-			
+
+
+
 	}
 }

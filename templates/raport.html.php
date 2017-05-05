@@ -11,8 +11,8 @@
 <!-- </form> -->
   <div class="col-md-4"></div>
 </div>
-    
-   
+
+
 
 
 
@@ -33,15 +33,15 @@
             <th>Tydzien 4 Predykcja</th>
             <th>Miesiac</th>
         </tr>
-    </thead> 
+    </thead>
         <tbody>
-        
+
             {foreach $allDorR as $id =>$dor}
-       
-           
+
+
 		<tr class="">
 			<td>{$dor['SID']}</td>
-			<td>{$dor['Doradca']}</td>   
+			<td>{$dor['Doradca']}</td>
             <td>{$dor['DBPL']}</td>
             <td>PWSZ</td>
             <td>{$dor['t1']}</td>
@@ -52,21 +52,21 @@
             <td>{$dor['t3p']}</td>
             <td>{$dor['t4']}</td>
             <td>{$dor['t4p']}</td>
-            <td>Miesiac</td>
+            <td>{$dor['dataWp']}</td>
 
-		
-			
-		 
-		
+
+
+
+
 	{/foreach}
         </tbody>
     </table>
 
-    
+
 </div>
 
 <ul>
-	
+
 </ul>
 
 <br/><br/>
