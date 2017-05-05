@@ -11,9 +11,6 @@ class Raport extends View {
 			if(isset($data['doradca']))
 				$this->set('allDorR', $data['doradca']);
 				$Doradca=$data['doradca'];
-				foreach($Doradca as $id=>$value){
-				$data1 = $model->getInfo($value['IdDoradcy']);
-				}//d($data1['preds']);
 		}
 		if(isset($data['error']))
 			$this->set('error', $data['error']);

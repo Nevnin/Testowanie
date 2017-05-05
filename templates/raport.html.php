@@ -37,28 +37,23 @@
         <tbody>
 
             {foreach $allDorR as $id =>$dor}
-
-
 		<tr class="">
-			<td>{$dor['SID']}</td>
-			<td>{$dor['Doradca']}</td>
-            <td>{$dor['DBPL']}</td>
+		
+			<td>{$dor['0']['SID']}</td>
+			<td>{$dor['0']['Doradca']}</td>
+            <td>{$dor['0']['DBPL']}</td>
             <td>PWSZ</td>
-            <td>{$dor['t1']}</td>
-            <td>{$dor['t1p']}</td>
-            <td>{$dor['t2']}</td>
-            <td>{$dor['t2p']}</td>
-            <td>{$dor['t3']}</td>
-            <td>{$dor['t3p']}</td>
-            <td>{$dor['t4']}</td>
-            <td>{$dor['t4p']}</td>
-            <td>{$dor['dataWp']}</td>
-
-
-
-
-
-	{/foreach}
+          {for $foo=0 to 3}
+           {if isset($dor[$foo]['t1'])}
+            <td>{$dor[$foo]['t1']}</td>
+            <td>{$dor[$foo]['t1p']}</td>
+           {else}    
+            <td></td>
+            <td></td>  
+            {/if}      
+			{/for}
+			<td>{$dor['0']['dataWp']}</td>
+			{/foreach}
         </tbody>
     </table>
 
