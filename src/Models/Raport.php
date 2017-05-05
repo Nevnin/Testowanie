@@ -29,15 +29,7 @@ class Raport extends Model {
 					
 						$i=0;
 					
-						foreach($preds as $pred=>$value)
-						{
-							
-							
-							if(!isset($value[0]))$preds[$i][0]=0;	
-							if(!isset($value[1]))$preds[$i][1]=0;	
-							$i++;
-						}
-						d($preds);
+					
 						//$dor= {Doradca} => {$doradca[0]};
 						$ID = $doradca[2];
 						$ND = $doradca[3];
@@ -51,7 +43,10 @@ class Raport extends Model {
 			
 // 						$dorr = getInfo($id);
 // 						d($dorr);
+						if(isset ($preds[0][0]))
 						$dor[]=array('IdDoradcy'=>$id,'SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK,'t1'=>$preds[0][0],'t1p'=>$preds[0][1],'t2'=>$preds[1][0],'t2p'=>$preds[1][1],'t3'=>$preds[2][0],'t3p'=>$preds[2][1],'t4'=>$preds[3][0],'t4p'=>$preds[3][1]);
+						else
+						$dor[]=array('IdDoradcy'=>$id,'SID'=>$doradca[0],'Doradca'=>$IND,'DBPL'=>$INK,'t1'=>0,'t1p'=>0,'t2'=>0,'t2p'=>0,'t3'=>0,'t3p'=>0,'t4'=>0,'t4p'=>0);
 						//d($dor);
 						
 					}
