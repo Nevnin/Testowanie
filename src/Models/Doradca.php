@@ -12,9 +12,22 @@ class Doradca extends Model {
 				{
 					$doradca = array();
 
-					$stmt = $this->pdo->query('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.aktywny=1 ' );
-					$doradca = $stmt->fetchAll();
-
+					$stmt = $this->pdo->query('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,koordynator.imie AS kImie, koordynator.nazwisko AS kNazwisko , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.aktywny=1 ' );
+					$tab = $stmt->fetchAll();
+					$doradca = array();
+					$i=0;
+					foreach ($tab as $key) {
+						$doradca[$i]['idDoradca'] = $key['idDoradca'];
+						$doradca[$i]['imie'] = decode($key['imie']);
+						$doradca[$i]['nazwisko'] = decode($key['nazwisko']);
+						$doradca[$i]['Koordynator'] = decode($key['kImie']).' '.decode($key['kNazwisko']);
+						$doradca[$i]['SID'] = decode($key['SID']);
+						$doradca[$i]['miasto'] = decode($key['miasto']);
+						$doradca[$i]['aktywny'] = $key['aktywny'];
+						$doradca[$i]['aktywnyKor'] = $key['aktywnyKor'];
+						$doradca[$i]['idKoordynator'] = $key['idKoordynator'];
+						$i++;
+					}
 					$stmt->closeCursor();
 					if($doradca && !empty($doradca))
 						$data['doradca'] = $doradca;
@@ -39,6 +52,11 @@ class Doradca extends Model {
 		try
 		{
 			$numer= "D00319".$sid;
+			$imie = encode($imie);
+			$nazwisko = encode($nazwisko);
+			$miasto = encode($miasto);
+			$numer = encode($numer);
+
 			$stmt = $this->pdo->prepare('UPDATE `doradca` SET `imie` = :imie, `nazwisko` = :nazwisko, `miasto` = :miasto , `SID`=:sid, `koordynator`=:koordynator WHERE `doradca`.`id` = :id');
 			$stmt->bindValue(':id',$id,PDO::PARAM_INT);
 			$stmt->bindValue(':imie',$imie,PDO::PARAM_STR);
@@ -68,17 +86,40 @@ class Doradca extends Model {
 				else
 					try
 					{
-						$stmt = $this->pdo->prepare('SELECT * FROM `doradca` WHERE `id`=:id');
+						$stmt = $this->pdo->prepare('SELECT id, imie, nazwisko, miasto, SID, koordynator, aktywny FROM `doradca` WHERE `id`=:id');
 						$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 						$result = $stmt->execute();
-						$doradca = $stmt->fetchAll();
+						$tab = $stmt->fetchAll();
 						$stmt->closeCursor();
-						foreach ($doradca as $key => $value)
-						{
-							$string = $value['SID'];
+						// foreach ($doradca as $key => $value)
+						// {
+						// 	$string = $value['SID'];
+						// 	$value['imie'] = decode($value['imie']);
+						// }
+						$i=0;
+						$doradca = array();
+						foreach ($tab as $key) {
+							// $doradca[$i]['id'] = $key['id'];
+							// $doradca[$i]['imie'] = decode($key['imie']);
+							// $doradca[$i]['nazwisko'] = decode($key['nazwisko']);
+							// $doradca[$i]['miasto'] = decode($key['miasto']);
+							// $doradca[$i]['kSID'] = substr(decode($key['SID']),6,9);
+							// $doradca[$i]['koordynator'] = $key['koordynator'];
+							// $doradca[$i]['aktywny'] = $key['aktywny'];
+							// $i++;
+							$doradca[] = array('id' => $key['id'],
+																'imie' => decode($key['imie']),
+																'nazwisko' => decode($key['nazwisko']),
+																'miasto' => decode($key['miasto']),
+																'kSID' => substr(decode($key['SID']),6,9),
+																'koordynator' => $key['koordynator'],
+																'aktywny' => $key['aktywny']);
 						}
-						$SID = substr($string,6,9);
-						$data['kSID']= $SID;
+						d($doradca);
+						// $string = decode($string);
+						// $SID = substr($string,6,9);
+						// d($SID,$string);
+						// $data['kSID']= $SID;
 						//czy istnieje kategoria o padanym id
 						if($result && $doradca && !empty($doradca)){
 							$data['doradca'] = $doradca[0];
@@ -88,6 +129,7 @@ class Doradca extends Model {
 							//$data['category'] = array();
 							$data['error'] = "Brak doradcaa o id=$id!";
 						}
+						d($data);
 
 				}
 				catch(\PDOException $e)
@@ -104,13 +146,30 @@ class Doradca extends Model {
 				try
 				{
 					$doradca = array();
-					$stmt = $this->pdo->prepare('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,concat(koordynator.imie," ",koordynator.nazwisko) AS Koordynator , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.miasto LIKE :miasto OR koordynator.imie LIKE :imie OR koordynator.nazwisko LIKE :nazwisko' );
+					$miastoKS = encode($miastoKS);
+					d($miastoKS);
+					$stmt = $this->pdo->prepare('SELECT doradca.id AS idDoradca,doradca.imie,doradca.nazwisko ,koordynator.imie AS kImie,koordynator.nazwisko AS kNazw , SID, doradca.miasto, doradca.aktywny,koordynator.aktywny AS aktywnyKor, koordynator.id AS idKoordynator from `doradca` inner join `koordynator` ON `koordynator`.`id`=`doradca`.`koordynator` WHERE doradca.miasto LIKE :miasto OR koordynator.imie LIKE :imie OR koordynator.nazwisko LIKE :nazwisko' );
 					$stmt->bindValue(':miasto', "%".$miastoKS."%", PDO::PARAM_STR);
 					$stmt->bindValue(':imie', "%".$miastoKS."%", PDO::PARAM_STR);
 					$stmt->bindValue(':nazwisko',"%".$miastoKS."%", PDO::PARAM_STR);
 					$result = $stmt->execute();
-					$doradca = $stmt->fetchAll();
+					$tab = $stmt->fetchAll();
 					$stmt->closeCursor();
+
+					// d($tab);
+					$i=0;
+					$doradca = array();
+					foreach ($tab as $key) {
+						$doradca[$i] = array('idDoradca' => $key['idDoradca'],
+															'imie' => decode($key['imie']),
+															'nazwisko' => decode($key['nazwisko']),
+															'miasto' => decode($key['miasto']),
+															'SID' => substr(decode($key['SID']),6,9),
+															'Koordynator' => decode($key['kImie']).' '.decode($key['kNazw']),
+															'aktywnyKor' => $key['aktywnyKor']);
+						$i++;
+					}
+					d($doradca);
 					if($doradca && !empty($doradca))
 						$data['doradca'] = $doradca;
 						else

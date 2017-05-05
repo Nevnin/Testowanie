@@ -6,53 +6,76 @@ class Koordynator extends Model {
 	public function getAll(){
 		$data = array();
 		if(!$this->pdo)
-			$data['msg'] = 'Po³¹czenie z baz¹ nie powido³o siê!';
+			$data['msg'] = 'Poï¿½ï¿½czenie z bazï¿½ nie powidoï¿½o siï¿½!';
 			else
-				try
-				{
-					$koordynator = array();
-					
-					$stmt = $this->pdo->query('SELECT  *  FROM `koordynator` ' );
-					$koordynator = $stmt->fetchAll();
-					
-					$stmt->closeCursor();
-					if($koordynator && !empty($koordynator))
-						$data['koordynator'] = $koordynator;
-						else
-							$data['koordynator'] = array();
-							$data['msg'] = 'OK';
+			try {
+				$stmt = $this->pdo->query('SELECT  *  FROM `koordynator`' );
+				$tab = $stmt->fetchAll();
+				$stmt->closeCursor();
+				//czy istnieje kategoria o padanym id
+				$i=0;
+				$koordynator = array();
+				foreach ($tab as $key) {
+					$koordynator[$i] = array('id' => $key['id'],
+																	'imie' => decode($key['imie']),
+																	'nazwisko' => decode($key['nazwisko']),
+																	'miasto' => decode($key['miasto']),
+																	'aktywny' => $key['aktywny']);
+					$i++;
+				}
+				// d($koordynator);
+				if($koordynator && !empty($koordynator))
+					$data['koordynator'] = $koordynator;
+					else
+						$data['koordynator'] = array();
+						$data['msg'] = 'OK';
+						// d($data);
 			}
 			catch(\PDOException $e)
 			{
-				$data['msg'] = 'B³¹d odczytu danych z bazy!';
+				$data['msg'] = 'Bï¿½ï¿½d odczytu danych z bazy!';
 			}
 			return $data;
 	}
-	public function getAllAll(){
-		$data = array();
-		if(!$this->pdo)
-			$data['msg'] = 'Po³¹czenie z baz¹ nie powido³o siê!';
-			else
-				try
-				{
-					$koordynator = array();
-					
-					$stmt = $this->pdo->query('SELECT  *  FROM `koordynator`' );
-					$koordynator = $stmt->fetchAll();
-					
-					$stmt->closeCursor();
-					if($koordynator && !empty($koordynator))
-						$data['koordynator'] = $koordynator;
-						else
-							$data['koordynator'] = array();
-							$data['msg'] = 'OK';
-			}
-			catch(\PDOException $e)
-			{
-				$data['msg'] = 'B³¹d odczytu danych z bazy!';
-			}
-			return $data;
-	}
+	// public function getAllAll(){
+	// 	$data = array();
+	// 	if(!$this->pdo)
+	// 		$data['msg'] = 'Poï¿½ï¿½czenie z bazï¿½ nie powidoï¿½o siï¿½!';
+	// 		else
+	// 			try
+	// 			{
+	// 				$koordynator = array();
+	//
+	// 				$stmt = $this->pdo->query('SELECT  *  FROM `koordynator`' );
+	// 				// $koordynator = $stmt->fetchAll();
+	// 				// $stmt->closeCursor();
+	// 				$tab = $stmt->fetchAll();
+	// 				$stmt->closeCursor();
+	// 				//czy istnieje kategoria o padanym id
+	// 				$i=0;
+	// 				$koordynator = array();
+	// 				foreach ($tab as $key) {
+	// 					$koordynator[$i] = array('id' => $key['id'],
+	// 																	'imie' => decode($key['imie']),
+	// 																	'nazwisko' => decode($key['nazwisko']),
+	// 																	'miasto' => decode($key['miasto']),
+	// 																	'aktywny' => $key['aktywny']);
+	// 					$i++;
+	// 				}
+	// 				// d($koordynator);
+	// 				if($koordynator && !empty($koordynator))
+	// 					$data['koordynator'] = $koordynator;
+	// 					else
+	// 						$data['koordynator'] = array();
+	// 						$data['msg'] = 'OK';
+	// 						// d($data);
+	// 		}
+	// 		catch(\PDOException $e)
+	// 		{
+	// 			$data['msg'] = 'Bï¿½ï¿½d odczytu danych z bazy!';
+	// 		}
+	// 		return $data;
+	// }
 	public function getOne($id){
 		$data = array();
 		if($id === NULL)
@@ -62,12 +85,22 @@ class Koordynator extends Model {
 				else
 					try
 					{
-						$stmt = $this->pdo->prepare('SELECT * FROM `koordynator` WHERE `id`=:id');
+						$stmt = $this->pdo->prepare('SELECT id, imie, nazwisko, miasto, aktywny FROM `koordynator` WHERE `id`=:id');
 						$stmt->bindValue(':id', $id, PDO::PARAM_INT);
 						$result = $stmt->execute();
-						$koordynator = $stmt->fetchAll();
+						$tab = $stmt->fetchAll();
 						$stmt->closeCursor();
 						//czy istnieje kategoria o padanym id
+						$i=0;
+						$koordynator = array();
+						foreach ($tab as $key) {
+							$koordynator[] = array('id' => $key['id'],
+																			'imie' => decode($key['imie']),
+																			'nazwisko' => decode($key['nazwisko']),
+																			'miasto' => decode($key['miasto']),
+																			'aktywny' => $key['aktywny']);
+						}
+						//d($koordynator);
 						if($result && $koordynator && !empty($koordynator)){
 							$data['koordynator'] = $koordynator[0];
 						}
@@ -76,7 +109,8 @@ class Koordynator extends Model {
 							//$data['category'] = array();
 							$data['error'] = "Brak koordynatora o id=$id!";
 						}
-						
+						//d($data);
+
 				}
 				catch(\PDOException $e)
 				{
@@ -94,6 +128,9 @@ class Koordynator extends Model {
 		}
 		try
 		{
+			$imie = encode($imie);
+			$nazwisko = encode($nazwisko);
+			$miasto = encode($miasto);
 			$stmt = $this->pdo->prepare('UPDATE `koordynator` SET `imie` = :imie, `nazwisko` = :nazwisko, `miasto` = :miasto, `aktywny`=:aktywny WHERE `koordynator`.`id` = :id');
 			$stmt->bindValue(':id',$id,PDO::PARAM_INT);
 			$stmt->bindValue(':imie',$imie,PDO::PARAM_STR);
@@ -103,15 +140,15 @@ class Koordynator extends Model {
 			$result =$stmt->execute();
 			$rows = $stmt->rowCount();
 			$stmt->closeCursor();
-			
+
 			$data['msg'] = $result ? 'OK' : "Nie znaleziono kategorii o id = $id!";
 		}
 		catch(\PDOException $e)
 		{
-			$data['msg'] = 'Po³¹czenie z baz¹ nie powido³o siê!';
+			$data['msg'] = 'Poï¿½ï¿½czenie z bazï¿½ nie powidoï¿½o siï¿½!';
 		}
 		return $data;
-		
+
 	}
 	public function delete($id){
 		$data = array();
@@ -144,6 +181,9 @@ class Koordynator extends Model {
 				else
 					try
 					{
+						$imie = encode($imie);
+						$nazwisko = encode($nazwisko);
+						$miasto = encode($miasto);
 						$stmt = $this->pdo->prepare('INSERT INTO `koordynator` (`imie`,`nazwisko`,`miasto`,`aktywny`) VALUES (:imie,:nazwisko,:miasto,1)');
 						$stmt->bindValue(':imie', $imie, PDO::PARAM_STR);
 						$stmt->bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);

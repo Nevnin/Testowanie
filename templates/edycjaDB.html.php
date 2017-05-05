@@ -14,11 +14,11 @@
     </div>
     <div class="form-group">
         <label for="nazwisko">Nazwisko:</label>
-    <input type="text" name="nazwisko" id="nazwisko" class="form-control" placeholder="Wprowadź nazwisko doradcy" value="{$oneDor['nazwisko']}"/>    
+    <input type="text" name="nazwisko" id="nazwisko" class="form-control" placeholder="Wprowadź nazwisko doradcy" value="{$oneDor['nazwisko']}"/>
     </div>
      <div class="form-group">
         <label for="sid">SID:</label>
-    <input type="text" name="sid" id="sid" class="form-control" placeholder="Wprowadź numer SID doradcy" value="{$kSID}"/>    
+    <input type="text" name="sid" id="sid" class="form-control" placeholder="Wprowadź numer SID doradcy" value="{$oneDor['kSID']}"/>
     </div>
    	<div class="form-group">
      <label for="autor">Koordynator:</label>
@@ -26,15 +26,15 @@
     {foreach $allKorAll as $id=>$wiersz}
      {if $wiersz['id']==$oneDor['koordynator']}
     <option value="{$wiersz['id']}" selected="selected">{$wiersz['imie']} {$wiersz['nazwisko']}</option>
-    {else} 
+    {else}
     <option value="{$wiersz['id']}" >{$wiersz['imie']} {$wiersz['nazwisko']}</option>
-     {/if} 
+     {/if}
     {/foreach}
     </select>
     </div>
     <div class="form-group">
         <label for="miasto">Miasto:</label>
-    <input type="text" name="miasto" id="miasto" class="form-control" placeholder="Wprowadź miasto doradcy" value="{$oneDor['miasto']}"/>    
+    <input type="text" name="miasto" id="miasto" class="form-control" placeholder="Wprowadź miasto doradcy" value="{$oneDor['miasto']}"/>
     </div>
     <button type="submit" class="btn btn-default" value="Dodaj">Edytuj</button>
 </form>

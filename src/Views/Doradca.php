@@ -60,7 +60,6 @@ class Doradca extends View {
 			$data = $model->getOne($id);
 			if(isset($data['doradca']))
 				$this->set('oneDor', $data['doradca']);
-				$this->set('kSID',$data['kSID']);
 
 		}
 		if(isset($data['error']))
